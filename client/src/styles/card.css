@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+    max-height: 65vh;
+    aspect-ratio: 0.8 / 1;
+}
+
+.cardCont {
+    max-height: 65vh;
+    aspect-ratio: 0.8 / 1;
+}
