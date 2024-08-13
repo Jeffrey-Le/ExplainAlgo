@@ -5,27 +5,29 @@ import './App.css'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Cont from './components/Container'
-import Card from './components/Card'
-import Button from './components/Button'
-
-import SignInForm from './components/SignInForm'
-
 import HomePage from './pages/Home/HomePage'
 import SignInPage from './pages/SignIn/SignInPage'
 import ProblemsListPage from './pages/Problems/ProblemsListPage'
 
+import NavBar from './components/NavBar'
+
+import { ListItemContext } from './contexts'
+
 function App() {
+  const [data, setData] = useState([]);
 
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<HomePage />}/>
-        <Route path='/problems' element={<ProblemsListPage />}/>
-        <Route path='/login' element={<SignInPage />}/>
-      </Routes>
-    </BrowserRouter>
+    <ListItemContext.Provider value={data}>
+      <BrowserRouter>
+        <NavBar/>
+        <Routes>
+          <Route path='/' element={<HomePage />}/>
+          <Route path='/problems' element={<ProblemsListPage />}/>
+          <Route path='/login' element={<SignInPage />}/>
+        </Routes>
+      </BrowserRouter>
+    </ListItemContext.Provider>
     </>
   )
 }

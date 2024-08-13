@@ -13,7 +13,6 @@ import "../../styles/home.css";
 function HomePage() {
     return (
         <>
-            <NavBar/>
             <Cont classes="home flex-col">
                 <div className="section1">
                     <IntroSec/>

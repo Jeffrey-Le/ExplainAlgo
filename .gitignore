@@ -1,4 +1,7 @@
 /server/.venv
+/server/.env
+/server/secret_key_generator.py
+
 /notes.txt
 
 /.DS_STORE

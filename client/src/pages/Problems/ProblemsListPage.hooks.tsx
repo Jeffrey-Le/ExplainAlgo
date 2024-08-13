@@ -1,8 +1,10 @@
 import {useEffect} from 'react';
+import axios from 'axios';
 
 const useProblemsListPage = () => {
     useEffect(() => {
         // Fetch Data
+        axios.get("https://URL");
     }, []);
 
     useEffect(() => {
