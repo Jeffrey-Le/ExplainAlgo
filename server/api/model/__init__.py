@@ -1,5 +1,10 @@
-from .problem_list_model import ProblemList
+from .problem_model import Problem
 from .difficulty_model import Difficulty
+from .user_model import User
+from .problem_type_model import ProblemType
+from .type_model import Type
+from .problem_solution_model import ProblemSolution
+from .history_model import History
 
 # Optionally, Can include some initialization code here if needed
 # For example, to register the models with an application context if necessary

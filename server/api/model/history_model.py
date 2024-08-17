@@ -1,13 +1,19 @@
-# from app import db
-# from sqlalchemy.orm import relationship
+from app import db
 
-# class History(db.Model):
-#     __tablename__ = 'history'
+class History(db.Model):
+    __tablename__ = 'history'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     action = db.Column(db.String(100), nullable=False)
-#     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
-#     problem_list_id = db.Column(db.Integer, db.ForeignKey('problem_lists.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    problem_id = db.Column(db.Integer, db.ForeignKey('problem.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    solution_id = db.Column(db.Integer, db.ForeignKey('problem_solution.id'))
+    solved_at = db.Column(db.DateTime, default=db.func.now())
+    status = db.Column(db.String(50), nullable=False)  # e.g., 'solved', 'attempted'
 
-#     def __repr__(self):
-#         return f'<History {self.id} - {self.action}>'
+    # Relationships
+    problem = db.relationship('Problem', backref='history')
+    userR = db.relationship('User', backref='history')
+    solution = db.relationship('ProblemSolution', backref='history')
+
+    def __repr__(self):
+        return f'<History id={self.id} problem_id={self.problem_id} user_id={self.user_id} solved_at={self.solved_at}>'

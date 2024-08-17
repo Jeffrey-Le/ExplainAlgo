@@ -1,5 +1,6 @@
-from .problem_list_schema import ProblemListSchema
+from .problem_schema import ProblemSchema
 from .difficulty_schema import DifficultySchema
+from .user_schema import UserSchema
 
 # Optionally, Can include some initialization code here if needed
 # For example, to register the models with an application context if necessary

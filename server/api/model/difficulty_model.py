@@ -8,7 +8,7 @@ class Difficulty(db.Model):
 
     # Define relationship to ProblemList
     # The 'backref' option in ProblemList will create a 'problems' attribute on the Difficulty class
-    problems = db.relationship('ProblemList', backref='difficulty', lazy=True)
+    #problems = db.relationship('Problem', backref='difficulty', lazy=True)
 
     def __repr__(self):
         return f'<Difficulty id={self.id} level="{self.level}">'

@@ -1,12 +1,12 @@
 from extensions import db, ma
-from api.model import ProblemList
+from api.model import Problem
 
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 # For the full ProblemList Query Object
-class ProblemListSchema(SQLAlchemyAutoSchema):
+class ProblemSchema(SQLAlchemyAutoSchema):
     class Meta:
-       model = ProblemList # Specify the model
+       model = Problem # Specify the model
        load_instance = True # For deserializing into model instances
 
 # Manually
