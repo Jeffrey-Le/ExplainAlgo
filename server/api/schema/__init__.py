@@ -1,6 +1,8 @@
 from .problem_schema import ProblemSchema
 from .difficulty_schema import DifficultySchema
 from .user_schema import UserSchema
+from .problem_solution_schema import ProblemSolutionSchema
+from .history_schema import HistorySchema
 
 # Optionally, Can include some initialization code here if needed
 # For example, to register the models with an application context if necessary

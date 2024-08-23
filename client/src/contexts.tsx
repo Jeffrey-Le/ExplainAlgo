@@ -1,7 +1,21 @@
-import { list } from "postcss";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-const ListItemContext = createContext<string[] | undefined>(undefined!);
+type ProblemContextType = {
+    problems: any[];
+    setList: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const ListItemContext = createContext<ProblemContextType | undefined>(undefined);
+
+const ListItemProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [problems, setList] = useState<any[]>([]);
+  
+    return (
+      <ListItemContext.Provider value={{ problems, setList }}>
+        {children}
+      </ListItemContext.Provider>
+    );
+  };
 
 function useListItemContext() {
     const listItems = useContext(ListItemContext);
@@ -14,4 +28,4 @@ function useListItemContext() {
 }
 
 
-export {ListItemContext, useListItemContext};
+export {ListItemProvider, useListItemContext};

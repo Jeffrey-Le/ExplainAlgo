@@ -12,7 +12,7 @@ class History(db.Model):
 
     # Relationships
     problem = db.relationship('Problem', backref='history')
-    userR = db.relationship('User', backref='history')
+    cur_user = db.relationship('User', backref='history')
     solution = db.relationship('ProblemSolution', backref='history')
 
     def __repr__(self):

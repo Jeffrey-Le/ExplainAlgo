@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 from extensions import db, ma
@@ -14,10 +15,13 @@ load_dotenv()
 def create_app():
 
     app = Flask(__name__)
+    CORS(app)
 
     app.config.from_object(os.environ.get('APP_SETTINGS'))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
+    #CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     jwt = JWTManager(app)
 
@@ -25,12 +29,13 @@ def create_app():
     from api.model import User, History, Problem, ProblemType, Difficulty, Type, ProblemSolution
 
     # Import Blueprints
-    from api.route import problem as problem_route_bp, difficulty as difficulty_route_bp, user as user_route_bp
+    from api.route import problem as problem_route_bp, difficulty as difficulty_route_bp, user as user_route_bp, history as history_route_bp
 
     # Register Blueprints
     app.register_blueprint(problem_route_bp)
     app.register_blueprint(difficulty_route_bp)
     app.register_blueprint(user_route_bp)
+    app.register_blueprint(history_route_bp)
 
     migrate = Migrate(app, db)
 

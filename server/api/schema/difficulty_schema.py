@@ -4,7 +4,7 @@ from api.model import Difficulty
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 # For the full ProblemList Query Object
-class DifficultySchema(SQLAlchemyAutoSchema):
+class DifficultySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
        model = Difficulty # Specify the model
        load_instance = True # For deserializing into model instances

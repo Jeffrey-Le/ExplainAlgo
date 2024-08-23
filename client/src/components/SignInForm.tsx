@@ -1,6 +1,6 @@
 import {ReactNode} from 'react';
 
-import Cont from "./Container"
+import Container from "./Container"
 import Card from "./Card"
 import InputBox from "./InputBox"
 import Button from "./Button"

@@ -10,7 +10,7 @@ class ProblemSolution(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
 
     # Relationships
-    problemR = db.relationship('Problem', backref='problem_solution', lazy=True)
+    problems = db.relationship('Problem', backref='problem_solution', lazy=True)
 
     def __repr__(self):
         return f'<ProblemSolution id={self.id} problem_id={self.problem_id} solution="{self.solution_text}">'

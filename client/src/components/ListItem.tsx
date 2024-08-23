@@ -1,21 +1,27 @@
 import {ReactNode} from 'react';
-import Cont from './Container';
+import Container from './Container';
+
+import { ProblemType } from '../types';
 
 interface ListItemProps {
-    children?: ReactNode;
+    children?: ProblemType;
     classes?: string;
 }
 
 function ListItem({children, classes}: ListItemProps) {
+    console.log(children);
     return (
         <>
-            <Cont classes={`flex-row justify-center items-center ${classes}`}>
-                {children}
-                <span className="flex justify-center items-center" style={{flexGrow: 6}}>Title</span>
-                <span className="flex justify-center items-center" style={{flexGrow: 1}}>Solution</span>
-                <span className="flex justify-center items-center" style={{flexGrow: 2}}>Difficulty</span>
-                <span className="flex justify-center items-center" style={{flexGrow: 1}}>Completion</span>
-            </Cont>
+            <Container classes={`flex-row justify-center items-center ${classes}`}>
+                {children &&
+                <>
+                    <span className="flex justify-center items-center" style={{flexGrow: 6}}>{children?.question_title}</span>
+                    <span className="flex justify-center items-center" style={{flexGrow: 1}}>Solution</span>
+                    <span className="flex justify-center items-center" style={{flexGrow: 2}}>{children?.difficulty?.level}</span>
+                    <span className="flex justify-center items-center" style={{flexGrow: 1}}>Completion</span>
+                </>
+                }
+            </Container>
         </>
     )
 }

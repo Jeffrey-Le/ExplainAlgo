@@ -11,23 +11,27 @@ import ProblemsListPage from './pages/Problems/ProblemsListPage'
 
 import NavBar from './components/NavBar'
 
-import { ListItemContext } from './contexts'
+import { ListItemProvider } from './contexts'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
-  const [data, setData] = useState([]);
+  const queryClient = new QueryClient();
 
   return (
     <>
-    <ListItemContext.Provider value={data}>
-      <BrowserRouter>
-        <NavBar/>
-        <Routes>
-          <Route path='/' element={<HomePage />}/>
-          <Route path='/problems' element={<ProblemsListPage />}/>
-          <Route path='/login' element={<SignInPage />}/>
-        </Routes>
-      </BrowserRouter>
-    </ListItemContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ListItemProvider>
+        <BrowserRouter>
+          <NavBar/>
+          <Routes>
+            <Route path='/' element={<HomePage />}/>
+            <Route path='/problems' element={<ProblemsListPage />}/>
+            <Route path='/login' element={<SignInPage />}/>
+          </Routes>
+        </BrowserRouter>
+      </ListItemProvider>
+    </QueryClientProvider>
     </>
   )
 }

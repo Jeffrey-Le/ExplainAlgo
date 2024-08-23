@@ -6,7 +6,7 @@ interface ContainerProps {
     classes?: string;
 }
 
-function Cont({children, classes = "cont bg-blue-300"}: ContainerProps) {
+function Container({children, classes = "cont bg-blue-300"}: ContainerProps) {
     return (
         <>
             <div className={`cont flex ${classes}`}>
@@ -16,4 +16,4 @@ function Cont({children, classes = "cont bg-blue-300"}: ContainerProps) {
     )
 }
 
-export default Cont;
+export default Container;

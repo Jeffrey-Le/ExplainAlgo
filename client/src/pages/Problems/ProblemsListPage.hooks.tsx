@@ -1,10 +1,28 @@
 import {useEffect} from 'react';
+import {useListItemContext} from '../../contexts';
+
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+const fetchProblems = async (quantity: number) => {
+    const response = await axios.get(`/api/problems?quantity=${quantity}`)
+    return response.data;
+}
+
 const useProblemsListPage = () => {
+    const {setList} = useListItemContext();
+    const quantity = 20;
+
+    //const {data, loading, error, fetchData} = useFetch<typeof problems>('/api/problems?quantity=20');
+    const { data: newProblems, isError, error, isLoading } = useQuery({
+        queryKey: ['problems', quantity],          // First argument: Query key
+        queryFn: () => fetchProblems(quantity),          // Second argument: Fetch function
+      });
+
     useEffect(() => {
         // Fetch Data
-        axios.get("https://URL");
+        //fetchData('GET', null, setList); // Pass the context's setData as the onSuccess callback
+        setList(newProblems);
     }, []);
 
     useEffect(() => {
@@ -13,6 +31,14 @@ const useProblemsListPage = () => {
 
     // Other Effects
     // Probably just rendering effects
+
+    // if (loading)
+    //     return <div> Loading... </div>;
+
+    // if (error)
+    //     return <div> {error} </div>;
+
+    return {newProblems, isLoading, isError, error};
 }
 
 export {useProblemsListPage};

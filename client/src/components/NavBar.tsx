@@ -1,14 +1,14 @@
 import {} from 'react';
 import {BrowserRouter, NavLink, Route, Routes} from 'react-router-dom'
 
-import Cont from './Container';
+import Container from './Container';
 
 import "../styles/navbar.css";
 
 function NavBar() {
     return (
         <>
-                <Cont classes="navCont justify-between items-center header">
+                <Container classes="navCont justify-between items-center header">
                     <NavLink to="/" className="logo">Logo</NavLink>
 
                     <nav className='navbar'>
@@ -16,7 +16,7 @@ function NavBar() {
                        <NavLink to="/problems" className="rot">Problems</NavLink>
                        <NavLink to="/login" className="rot">Login</NavLink>
                     </nav>
-                </Cont>
+                </Container>
         </>
     )
 }

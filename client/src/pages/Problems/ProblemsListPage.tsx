@@ -1,14 +1,31 @@
 import { useProblemsListPage } from "./ProblemsListPage.hooks";
 
 import List from "../../components/List";
-import Cont from "../../components/Container";
+import Container from "../../components/Container";
+
+import { useListItemContext } from "../../contexts";
+import ListItem from "../../components/ListItem";
 
 function ProblemsListPage() {
-    useProblemsListPage();
+    const {newProblems, isLoading, isError, error} = useProblemsListPage();
+    //const {problems} = useListItemContext();
+
+    console.log("pROBLEMS:", newProblems);
+
+    if (isLoading)
+        return <div> Loading... </div>;
+
+    if (isError)
+        return <div> {error?.message} </div>;
+
+    // {newProblems && newProblems.length > 0 ? (<ListItem>{newProblems[0]}</ListItem>) : (<p>No problems</p>)}
 
     return (
         <>
-            <List/>
+            
+            <div>
+                <List items={newProblems}/>
+            </div>
         </>
     )
 }
