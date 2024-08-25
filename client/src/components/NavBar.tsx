@@ -5,10 +5,14 @@ import Container from './Container';
 
 import "../styles/navbar.css";
 
-function NavBar() {
+interface NavBarProps {
+    color: string;
+}
+
+function NavBar({color}: NavBarProps) {
     return (
         <>
-                <Container classes="navCont justify-between items-center header">
+                <Container classes={`navCont justify-between items-center header rounded-xl ${color}`}>
                     <NavLink to="/" className="logo">Logo</NavLink>
 
                     <nav className='navbar'>

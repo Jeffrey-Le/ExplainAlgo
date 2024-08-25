@@ -1,30 +1,27 @@
 import {useEffect, useState} from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {useListItemContext} from '../../contexts';
 
 import axios from 'axios';
 
+const fetchProblems = async (quantity: number) => {
+    const response = await axios.get(`/api/problems?quantity=${quantity}`)
+    return response.data;
+}
+
 const useSignInPage = () => {
-    const {problems, setList} = useListItemContext();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const {setList} = useListItemContext();
+    const quantity = 20;
+
+    //const {data, loading, error, fetchData} = useFetch<typeof problems>('/api/problems?quantity=20');
+    const { data: newProblems, isError, error, isLoading } = useQuery({
+        queryKey: ['problems', quantity],          // First argument: Query key
+        queryFn: () => fetchProblems(quantity),          // Second argument: Fetch function
+      });
 
     useEffect(() => {
-        const fetchData = async () => {
-        // Fetch Data
-        try {
-            const response = await axios.get('http://127.0.0.1:5000/problems?quantity=20'); // Should retreive 20 problems from the list
-            setList(response.data); // Set the fetched data in context state
-        }
-        catch(err) {
-            setError('Error Fetching Data'); // Handle Errors
-        }
-
-        setLoading(false); // Loading finishes either branch
-    };
-
-    fetchData(); // Call Function
         
-    }, []);
+    }, [newProblems]);
 
     useEffect(() => {
         // Send Analytics Events
@@ -33,11 +30,11 @@ const useSignInPage = () => {
     // Other Effects
     // Probably just rendering effects
 
-    if (loading)
+    if (isLoading)
         return <div> Loading... </div>;
 
-    if (error)
-        return <div> {error} </div>;
+    if (isError)
+        return <div> {error.message} </div>;
 }
 
 export {useSignInPage};

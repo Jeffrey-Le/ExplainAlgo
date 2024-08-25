@@ -1,0 +1,51 @@
+.screen {
+    margin: 1vh;
+    margin-top: 7vh;
+
+    overflow-y: hidden;
+    max-height: 92vh;
+
+    display: grid;
+
+    grid-template-columns: 50vh 1fr;
+    grid-template-rows: 52vh 40vh;
+    grid-template-areas: 
+    "side input"
+    "side display";
+}
+
+.screen::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.question {
+    max-height: inherit;
+
+    grid-template-rows: 10vh 5vh 1fr 1fr;
+    grid-template-areas: 
+    ""
+    ""
+    ""
+    "";
+    
+}
+
+.content {
+    font-size: 2vh;
+}
+
+.answer {
+    grid-area: input;
+    max-height: 52vh;
+    margin: 0;
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer / Edge */
+
+    font-size: 2vh;
+}
+
+.display {
+    grid-area: display;
+    max-height: 40vh;
+}

@@ -1,14 +1,16 @@
 .navCont {
     max-height: 5vh;
+    margin: 1vh;
 }
+
 
 .header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 99%;
     padding: 20px 10%;
-    background: transparent;
+    /*background: transparent; */
     z-index: 100;
 }
 
@@ -39,5 +41,4 @@
 
 .navbar .rot:hover::before {
     width: 100%;
-
 }

@@ -1,15 +1,16 @@
-import {ReactNode} from 'react';
+import {CSSProperties, ReactNode} from 'react';
 import '../styles/container.css';
 
 interface ContainerProps {
     children?: ReactNode;
     classes?: string;
+    style?: CSSProperties;
 }
 
-function Container({children, classes = "cont bg-blue-300"}: ContainerProps) {
+function Container({children, classes = "cont bg-blue-300", style}: ContainerProps) {
     return (
         <>
-            <div className={`cont flex ${classes}`}>
+            <div style={style} className={`cont flex ${classes}`}>
                 {children}
             </div>
         </>

@@ -1,6 +1,6 @@
 import {} from 'react';
 
-import Cont from '../../components/Container';
+import Container from "../../components/Container";
 
 import NavBar from '../../components/NavBar';
 
@@ -13,14 +13,14 @@ import "../../styles/home.css";
 function HomePage() {
     return (
         <>
-            <Cont classes="home flex-col">
+            <Container classes="home flex-col">
                 <div className="section1">
                     <IntroSec/>
                 </div>
                 <div className="section2">
                     <PurposeSec/>
                 </div>
-            </Cont>
+            </Container>
         </>
     )
 
