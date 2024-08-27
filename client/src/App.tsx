@@ -11,7 +11,7 @@ import ProblemsListPage from './pages/ProblemsList/ProblemsListPage'
 
 import NavBar from './components/NavBar'
 
-import { ListItemProvider } from './contexts'
+import { ListItemProvider } from './contexts/contexts'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ProblemScreenPage from './pages/ProblemScreen/ProblemScreenPage'

@@ -39,12 +39,12 @@
     padding: 5px 20px;
 }
 
-.inBox:focus, .inBox:valid {
+.inBox:focus, .inBox:not(:placeholder-shown) {
   color: greenyellow;
   border: 4px solid greenyellow;
 }
 
-.inBox:focus + .labelHolder, .inBox:valid + .labelHolder {
+.inBox:focus + .labelHolder, .inBox:not(:placeholder-shown) + .labelHolder {
     color: greenyellow;
     height: 30px;
     line-height: 30px;

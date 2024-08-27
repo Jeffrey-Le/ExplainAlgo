@@ -1,13 +1,10 @@
 import {useEffect} from 'react';
-import {useListItemContext} from '../../contexts';
+import {useListItemContext} from '../../contexts/contexts';
 
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const fetchProblems = async (quantity: number) => {
-    const response = await axios.get(`/api/problems?quantity=${quantity}`)
-    return response.data;
-}
+import { fetchProblems } from '../../services/problemService';
 
 const useProblemsListPage = () => {
     const {setList} = useListItemContext();

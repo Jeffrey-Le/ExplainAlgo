@@ -1,7 +1,7 @@
 import {ReactNode} from 'react';
 import Container from './Container';
 
-import { ProblemType } from '../types';
+import { ProblemType } from '../types/types';
 
 interface ListItemProps {
     children?: ProblemType;

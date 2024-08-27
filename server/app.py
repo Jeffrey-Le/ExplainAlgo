@@ -4,9 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+
+import logging
 from dotenv import load_dotenv
 
-from extensions import db, ma
+from extensions import db, ma, logger, limiter
 
 #from api.route import *
 
@@ -23,8 +25,17 @@ def create_app():
 
     #CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
-    jwt = JWTManager(app)
+    ma.init_app(app)
+    limiter.init_app(app)
 
+    # Configure Rate Limiting
+    app.limiter = limiter # Attach the limiter to the app object
+
+    # Configure Logging
+    app.logger = logger
+    
+    jwt = JWTManager(app)
+    
     # Import Models
     from api.model import User, History, Problem, ProblemType, Difficulty, Type, ProblemSolution
 
