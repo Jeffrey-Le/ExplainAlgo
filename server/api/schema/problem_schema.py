@@ -18,6 +18,7 @@ class ProblemSchema(ma.SQLAlchemyAutoSchema):
        load_instance = True # For deserializing into model instances
 
     difficulty = ma.Nested(DifficultySchema)
+    #solution = ma.Nested(ProblemSolutionSchema)
     solution = ma.List(ma.Nested(ProblemSolutionSchema))
 
 # Manually

@@ -10,7 +10,3 @@ def authenticate_user(username: str, password: str):
         return {'access_token': access_token}
     else:
         return None
-
-def get_current_user():
-    """Get the current user based on the token."""
-    return get_jwt_identity()

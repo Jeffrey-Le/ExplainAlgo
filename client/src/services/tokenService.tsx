@@ -1,5 +1,5 @@
-import axios
- from "axios";
+import axios from "axios";
+
 // Non-HTTP Only Cookies
 export function getCookie(name: string) {
      // Create a string with all the cookies

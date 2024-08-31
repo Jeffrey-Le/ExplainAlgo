@@ -6,12 +6,13 @@ import './App.css'
 import { Routes, Route, useLocation } from 'react-router-dom'
 
 import HomePage from './pages/Home/HomePage'
-import SignInPage from './pages/SignIn/SignInPage'
+import LoginPage from './pages/Login/LoginPage'
+import RegisterPage from './pages/Register/RegisterPage'
 import ProblemsListPage from './pages/ProblemsList/ProblemsListPage'
 
 import NavBar from './components/NavBar'
 
-import { ListItemProvider } from './contexts/contexts'
+import { ListItemProvider } from './contexts/problemContext'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ProblemScreenPage from './pages/ProblemScreen/ProblemScreenPage'
@@ -29,6 +30,8 @@ function App() {
         return 'bg-orange-300';
       case '/login':
         return 'bg-green-500';
+      case '/register':
+        return 'bg-green-500';
       case '/problems/:question_title':
         return 'bg-purple-500';
       default:
@@ -44,7 +47,8 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />}/>
               <Route path='/problems' element={<ProblemsListPage />}/>
-              <Route path='/login' element={<SignInPage />}/>
+              <Route path='/login' element={<LoginPage />}/>
+              <Route path='/register' element={<RegisterPage />}/>
               <Route path='/problems/:question_title' element={<ProblemScreenPage />}/>
             </Routes>
       </ListItemProvider>

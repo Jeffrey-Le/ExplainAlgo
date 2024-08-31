@@ -22,6 +22,9 @@ def create_app():
     app.config.from_object(os.environ.get('APP_SETTINGS'))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['CORS_HEADERS'] = 'Content-Type'
+    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+    app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
+    app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
 
     #CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)

@@ -1,19 +1,18 @@
-import {useEffect, useRef} from 'react';
+import {useRef} from 'react';
 
-import Card from "./Card"
-import InputBox from "./InputBox"
-import Form from './Form';
+import { redirect } from 'react-router-dom';
 
-import Button from './Button';
+import InputBox from "../../components/InputBox"
+import Form from '../../components/Form';
 
-import { loginAuth } from '../services/authService';
-import { getCookie, fetchProtectedData} from '../services/tokenService';
+import { loginAuth } from '../../services/authService';
+import { useUserContext } from '../../contexts/userContext';
 
-interface SignInFormProps {
+interface LoginFormProps {
     classes?: string;
 }
 
-export default function SignInForm({classes}: SignInFormProps) {
+export default function LoginForm({classes}: LoginFormProps) {
     const nameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     
@@ -67,8 +66,15 @@ export default function SignInForm({classes}: SignInFormProps) {
       
         console.log(data);
 
-        const token = fetchProtectedData();
-        console.log(token);
+        const user = useUserContext();
+
+        if (user)
+            return redirect("/home");
+
+        // const token = fetchProtectedData();
+        // console.log(token);
+
+
     };
 
 

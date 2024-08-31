@@ -1,8 +1,7 @@
 import {useEffect} from 'react';
-import {useListItemContext} from '../../contexts/contexts';
+import {useListItemContext} from '../../contexts/problemContext';
 
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { fetchProblems } from '../../services/problemService';
 
@@ -14,13 +13,14 @@ const useProblemsListPage = () => {
     const { data: newProblems, isError, error, isLoading } = useQuery({
         queryKey: ['problems', quantity],          // First argument: Query key
         queryFn: () => fetchProblems(quantity),          // Second argument: Fetch function
+        staleTime: 5 * 60 * 1000, // 5 minutes of fresh data time
+        gcTime: 10 * 60 * 1000, // Refteches new cache every 10 minutes of inactive data
       });
 
     useEffect(() => {
         // Fetch Data
-        //fetchData('GET', null, setList); // Pass the context's setData as the onSuccess callback
         setList(newProblems);
-    }, []);
+    }, [newProblems]);
 
     useEffect(() => {
         // Send Analytics Events
@@ -29,13 +29,12 @@ const useProblemsListPage = () => {
     // Other Effects
     // Probably just rendering effects
 
-    // if (loading)
-    //     return <div> Loading... </div>;
-
-    // if (error)
-    //     return <div> {error} </div>;
-
     return {newProblems, isLoading, isError, error};
 }
 
-export {useProblemsListPage};
+const useCachedProblems = (quantity: number) => {
+    const queryClient = useQueryClient();
+    return queryClient.getQueryData(['problems', quantity]);
+}
+
+export {useProblemsListPage, useCachedProblems};

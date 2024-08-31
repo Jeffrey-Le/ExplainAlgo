@@ -1,19 +1,33 @@
 from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from extensions import db, logger, limiter
 
 from api.schema import UserSchema
 from api.model import User
 from api.service.password_service import hash_password
-from api.service.token_service import authenticate_user
+from api.service.token_service import authenticate_user, get_current_user
 from api.service.validate_service import send_verification_email, validate_password, validate_email
+from api.service.user_service import get_user_by_id
 from api.util.decorators import role_required
 
 user = Blueprint('user_routes', __name__, url_prefix='/users')
 
-@user.route('', methods=['GET'])
+@user.route('/', methods=['GET'])
+@jwt_required(locations=['cookies'])
 def get_user():
-    return
+    #token = request.cookies.get('access_token')
+    user_id = get_jwt_identity()
+    if user_id:
+        # Validate the token and proceed
+        user = get_user_by_id(user_id)
+
+        schema = UserSchema()
+        result = schema.dump(user)
+
+        return jsonify(result), 200
+    else:
+        return jsonify({'message': 'No User found'}), 401
 
 @user.route('/add', methods=['POST'])
 def add_user():

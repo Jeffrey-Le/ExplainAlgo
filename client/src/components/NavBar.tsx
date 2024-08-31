@@ -19,6 +19,8 @@ function NavBar({color}: NavBarProps) {
                        <NavLink to="/" className="rot">Home</NavLink>
                        <NavLink to="/problems" className="rot">Problems</NavLink>
                        <NavLink to="/login" className="rot">Login</NavLink>
+                       <span className='font-medium' style={{marginLeft: 10, fontSize: "18px"}}>/</span>
+                       <NavLink to="/register" className="rot" style={{marginLeft: 10}}>Register</NavLink>
                     </nav>
                 </Container>
         </>

@@ -16,7 +16,7 @@ class HistorySchema(ma.SQLAlchemyAutoSchema):
 
     problem = ma.Nested(ProblemSchema)
     cur_user= ma.Nested(UserSchema)
-    solution = ma.Nested(ProblemSolutionSchema)
+    #solution = ma.Nested(ProblemSolutionSchema)
 
 # Manually
 # class HistorySchema(ma.Schema):

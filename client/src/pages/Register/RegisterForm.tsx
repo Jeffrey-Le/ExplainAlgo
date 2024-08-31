@@ -1,15 +1,15 @@
 import {useRef} from 'react';
 
-import InputBox from "./InputBox"
-import Form from './Form';
+import InputBox from "../../components/InputBox"
+import Form from '../../components/Form';
 
-import { registerAuth } from '../services/authService';
+import { registerAuth } from '../../services/authService';
 
-interface SignUpFormProps {
+interface RegisterFormProps {
     classes?: string;
 }
 
-export default function SignUpForm({classes}: SignUpFormProps) {
+export default function RegisterForm({classes}: RegisterFormProps) {
     const nameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
@@ -92,8 +92,8 @@ export default function SignUpForm({classes}: SignUpFormProps) {
 
     return (
         <>
-            <Form onSubmit={handleSubmit} onClick={handleClick} classes={classes} submitButtonText='Register'>
-                <label style={{fontSize: "5vh"}}>Login</label>
+            <Form onSubmit={handleSubmit} onClick={handleClick} classes={classes} submitButtonText='Submit'>
+                <label style={{fontSize: "5vh"}}>Register</label>
                 <InputBox label="Name" ref={nameRef} inputEvent={handleInput}/>
                 <InputBox label="Password" type='password' ref={passwordRef} inputEvent={handleInput}/>
                 <InputBox label="Email" type='email' ref={emailRef} inputEvent={handleInput}/>
