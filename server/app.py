@@ -6,8 +6,12 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
 import logging
+import marko
 from dotenv import load_dotenv
 
+import google.generativeai as genai
+
+from gemini.config import config, safety_settings
 from extensions import db, ma, logger, limiter
 
 #from api.route import *
@@ -15,6 +19,12 @@ from extensions import db, ma, logger, limiter
 load_dotenv()
 
 def create_app():
+    # Configure and Intialize Gemini Model
+    genai.configure(api_key=os.getenv("API_KEY"))
+
+    model = genai.GenerativeModel(model_name="gemini-pro-vision",
+                              generation_config=config,
+                              safety_settings=safety_settings)
 
     app = Flask(__name__)
     CORS(app)
