@@ -11,8 +11,12 @@ from dotenv import load_dotenv
 
 import google.generativeai as genai
 
+from extensions import db, ma, logger, limiter, csrf, gem
+
 from gemini.config import config, safety_settings
-from extensions import db, ma, logger, limiter
+from gemini.rubric import RubricManager
+from gemini.response_analyzer import analyze_response
+from gemini.problem_generator import ProblemGenerator
 
 #from api.route import *
 
@@ -20,11 +24,12 @@ load_dotenv()
 
 def create_app():
     # Configure and Intialize Gemini Model
-    genai.configure(api_key=os.getenv("API_KEY"))
+    # genai.configure(api_key=os.getenv("API_KEY"))
 
-    model = genai.GenerativeModel(model_name="gemini-pro-vision",
-                              generation_config=config,
-                              safety_settings=safety_settings)
+    # global model
+    # model = genai.GenerativeModel(model_name="gemini-pro-vision",
+    #                           generation_config=config,
+    #                           safety_settings=safety_settings)
 
     app = Flask(__name__)
     CORS(app)
@@ -35,11 +40,25 @@ def create_app():
     app.config['JWT_TOKEN_LOCATION'] = ['cookies']
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = True # Enables CSRF protection
+    app.config['SESSION_COOKIE_NAME'] = 'flask_session'  # Empty name to avoid setting a session cookie
+    app.config['WTF_CSRF_ENABLED'] = True
+    #app.config['MODEL'] = model
 
     #CORS(app, resources={r"/*": {"origins": "*"}})
     db.init_app(app)
     ma.init_app(app)
     limiter.init_app(app)
+    csrf.init_app(app)
+
+    # global gem
+    # gem = {
+    # "problem_generator": ProblemGenerator(app=app),
+    # "rubric_manager": RubricManager(),
+    # "analyzer": 'analyze_response()'
+    # }
+
+    #print('New Gem: ', gem)
 
     # Configure Rate Limiting
     app.limiter = limiter # Attach the limiter to the app object

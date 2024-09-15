@@ -1,0 +1,42 @@
+{
+    "Problem": {
+        "instructions": "When creating a problem, keep in mind the following things:",
+        "guidelines": {
+            "general": "Make sure the response returns an object that includes the following keys: title, question, description, difficulty, example, key_types (An Array of Strings)",
+            "title": "The problem should come with a title that is clear and concise that explains the question",
+            "clarity": "The problem should be clear and easy to understand.",
+            "difficulty": "The difficulty of the problem should be kept in mind",
+            "example": "The problem should come with one or two clear examples of what should be expected.",
+            "key_types": "Each problem should generate a set of Data Structures & Algorithm Types to be able to sort into categories"
+        }
+    },
+    "Solution": {
+        "instructions": "When creating a solution, keep in mind the following things:",
+        "guidelines": {
+            "clarity": "The solution should be clear and easy to understand.",
+            "completeness": "Ensure that all parts of the problem are addressed.",
+            "conciseness": "Keep the solution concise but comprehensive. Make it understandable in a way that can be implmeneted in code, but don't explicitly explain it in coding terms.",
+            "key_words": "Solution should include key words such as the types of data structure or algorithm needed to be applied to the problem."
+        }
+    },
+    "Rubric": {
+        "instructions": "When creating a rubric based on the solutions, keep in mind the following things:",
+        "guidelines": {
+            "general": "For each section, feel free to split the rubric up into more to compensate on the important values. For example, undertsanding could be split into understanding of the concept and understanding of the data strcture or algorithm.",
+            "understanding": "Understanding of the problem",
+            "structure": "Logical sturcutre of the explanation",
+            "correctness": "Assess the correctness of the user's understanding.",
+            "clarity": "Clarity and coherence of the response",
+            "key_concepts": "The rubric should evaluate whether key concepts are covered. Feel free to split up key concepts for their own sections of the rubric."
+        }
+    },
+    "Analyzer": {
+        "instructions": "When analyzing a user response, base it off the rubric, and then give them a score. Also, include feedback on what their response can improve upon.",
+        "feedback_criteria": {
+            "general": "If the user ever explains an algorithm or data structure, but doesn't quite identify it, feel free to give them partial or full credit if the explanation makes sense, or is the exact data structure or algorithm, but in explained form.",
+            "missing_key_terms": "Inform the user if any key terms were missed.",
+            "incomplete_explanation": "Provide suggestions for expanding explanations.",
+            "comparison": "For any incomplete explanations, make a comparison with the given solution to explain what the user is missing."
+        }
+    }
+}

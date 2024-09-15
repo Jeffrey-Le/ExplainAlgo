@@ -6,10 +6,10 @@ from api.model import User
 def role_required(required_role):
     def wrapper(fn):
         @wraps(fn)
-        @jwt_required()
+        @jwt_required(locations=['cookies'])
         def decorated_view(*args, **kwargs):
             # Check if JWT is present
-            jwt_required()(fn)
+            #jwt_required()(fn)
             current_user = get_jwt_identity()
             user = User.query.filter_by(id=current_user).first()
 
