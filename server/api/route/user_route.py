@@ -18,7 +18,7 @@ user = Blueprint('user_routes', __name__, url_prefix='/users')
 def get_csrf_token():
     token = generate_csrf()
     response = jsonify({'csrf_token': token})
-    response.set_cookie('csrf_token', token, path='/', httponly=True)
+    response.set_cookie('csrf_token', token, path='/', httponly=True, samesite='Lax')
     return response
 
 @user.route('/', methods=['GET'])

@@ -6,7 +6,7 @@ config = {
 'temperature': 0,
 'top_k': 20,
 'top_p': 0.9,
-'max_output_tokens': 500,
+'max_output_tokens': 1000,
 "response_mime_type": "application/json"
 }
 

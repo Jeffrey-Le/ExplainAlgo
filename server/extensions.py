@@ -40,7 +40,7 @@ model = genai.GenerativeModel(model_name="gemini-1.5-flash",
                             generation_config=config,
                             safety_settings=safety_settings)
 gem = {
-    "problem_generator": ProblemGenerator(model),
     "rubric_manager": RubricManager(),
-    "analyzer": 'analyze_response()'
     }
+
+gem['problem_generator'] = ProblemGenerator(model, gem['rubric_manager'])

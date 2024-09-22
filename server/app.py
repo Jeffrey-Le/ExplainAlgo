@@ -42,14 +42,14 @@ def create_app():
     app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
     app.config['JWT_COOKIE_CSRF_PROTECT'] = True # Enables CSRF protection
     app.config['SESSION_COOKIE_NAME'] = 'flask_session'  # Empty name to avoid setting a session cookie
-    app.config['WTF_CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_ENABLED'] = False
     #app.config['MODEL'] = model
 
     #CORS(app, resources={r"/*": {"origins": "*"}})
+    csrf.init_app(app)
     db.init_app(app)
     ma.init_app(app)
     limiter.init_app(app)
-    csrf.init_app(app)
 
     # global gem
     # gem = {

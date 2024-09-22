@@ -7,7 +7,8 @@ from marshmallow import ValidationError
 
 from api.schema import ProblemSchema
 from api.model import Problem
-from extensions import db, csrf, gem
+from gemini.response_analyzer import analyze_response
+from extensions import db, csrf, gem, model
 
 from api.util.decorators import role_required
 
@@ -41,11 +42,19 @@ def add_problem():
     
 @problem.route('/create', methods=['POST'])
 @csrf.exempt
-@role_required('admin')
+#@role_required('admin')
 def create_problem():
     global gem
 
+    # act = One of Three Settings -> 1: Create New Problem, 2: Create New Solution, 3: Create New Rubric
     act = request.args.get('act', type=int)
+
+    try:
+        data = request.get_json()
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+
+    print('CReating a Problem')
 
     try :
         prompt = data.get('Prompt')
@@ -65,6 +74,26 @@ def create_problem():
                 jsonify("Please resend the request with a response type (new, solution, rubric)"), 401
     except ValidationError as err:
         return jsonify(err.messages), 400
+
+@problem.route('/analyze', methods=['POST'])
+def analyze_user_response():
+    data = request.get_json()
+
+    try:
+        user_input = data.get('user_answer')
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    try:
+        rubric = data.get('rubric')
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    response = analyze_response(model, user_input, rubric)
+
+    return jsonify(response), 201
+    
+
 
 
 # @problem_list.route('', methods=['POST'])
