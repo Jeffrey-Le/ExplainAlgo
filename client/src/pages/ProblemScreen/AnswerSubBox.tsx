@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Container from "../../components/Container";
 
 import "../../styles/screen.css"
 

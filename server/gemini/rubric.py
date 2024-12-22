@@ -14,7 +14,7 @@ class RubricManager:
         # Customize this rubric based on the solution, but using base settings
         guidelines = self.base_settings['guidelines']
 
-        prompt = f"Generate the rubric for the following problem solution given. Split each into json object types bassed on the guidelines, and add any additional object types if you feel its needed. DO NOT INCLUDE ANY CODE. THIS IS MEANT TO REPLICATE AN INTERVIEW STYLE EXPLANATION. FORMAT IN JSON. Also assign point values to each section. Let's try and make it out of 100. Here are the guidelines: {guidelines}"
+        prompt = f"Generate the rubric for the following problem solution given. Keep it to text only. Return as JSON bassed on the guidelines, and add any additional object types if you feel its needed. DO NOT INCLUDE ANY CODE. THIS IS MEANT TO REPLICATE AN INTERVIEW STYLE EXPLANATION. FORMAT IN JSON. Also assign point values to each section. Let's try and make it out of 100. Here are the guidelines: {guidelines}"
         response = model.generate_content([prompt, solution])
 
         try:

@@ -1,0 +1,13 @@
+.admin {
+    margin: 1vh;
+    margin-top: 6vh;
+
+    overflow-y: hidden;
+    max-height: 92vh;
+
+    width: 100%;
+
+    padding: 2vh;
+    
+    gap: 2vh;
+}

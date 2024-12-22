@@ -7,6 +7,9 @@ def get_user_by_id(user_id):
     print(cur_user)
     return cur_user
 
+def get_user_by_username(username):
+    cur_user = User.query.filter
+
 @jwt_required()
 def get_current_user():
     """Get the current user based on the token."""

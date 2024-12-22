@@ -1,14 +1,14 @@
-interface ProblemType {
+export interface ProblemType {
     id?: number;
     question?: string,
-    question_title?: string,
+    questionTitle?: string,
     difficulty?:DifficultyType,
     created_at?: string,
     updated_at?: string,
     solutions: ProblemSolutionType[]
 }
 
-interface ProblemSolutionType {
+export interface ProblemSolutionType {
     id?: number,
     problem_id?: number,
     solution_text?: string,
@@ -16,12 +16,12 @@ interface ProblemSolutionType {
     updated_at?: string
 }
 
-interface DifficultyType {
+export interface DifficultyType {
     id?: number,
     level?: string
 }
 
-interface HistoryType {
+export interface HistoryType {
     id?: number,
     user_id?: number,
     problem_id?: number,
@@ -30,17 +30,17 @@ interface HistoryType {
     status?: string
 }
 
-interface ProblemCategoryType {
+export interface ProblemCategoryType {
     problem_id?: number,
     type_id?: number
 }
 
-interface CategoryType {
+export interface CategoryType {
     id?: number,
     type_name?: string
 }
 
-interface UserType {
+export interface UserType {
     id?: number,
     username?: string,
     email?: string,
@@ -49,5 +49,3 @@ interface UserType {
     updated_at?: string,
     role?: string
 }
-
-export type {ProblemType};

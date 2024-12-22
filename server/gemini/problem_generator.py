@@ -8,7 +8,12 @@ class ProblemGenerator:
         self.rubric_manager = rubric_manager
 
     def generate_problems(self, prompt: str) -> dict:
-        response = self.model.generate_content(prompt)
+        revised_prompt = f"For the following prompt: {prompt}; Use the following guidelines and add your own for more detail. Ensure the response as a minimum returns a JSON with title, question, description, difficulty (Give as string name like easy, medium, etc.), example, key_types (This should be an array of strings)."
+
+        response = self.model.generate_content(revised_prompt)
+
+        if (response.text == ""):
+            return {}
 
         print(response.text)
 

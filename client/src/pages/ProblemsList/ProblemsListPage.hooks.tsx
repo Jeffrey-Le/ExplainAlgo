@@ -20,7 +20,7 @@ const useProblemsListPage = () => {
     useEffect(() => {
         // Fetch Data
         setList(newProblems);
-    }, [newProblems]);
+    }, [newProblems, setList]);
 
     useEffect(() => {
         // Send Analytics Events

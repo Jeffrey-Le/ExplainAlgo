@@ -10,8 +10,13 @@ def role_required(required_role):
         def decorated_view(*args, **kwargs):
             # Check if JWT is present
             #jwt_required()(fn)
+            print("Checking Role")
+
             current_user = get_jwt_identity()
             user = User.query.filter_by(id=current_user).first()
+
+            print(user)
+            print(required_role)
 
             if user and user.role == required_role:
                 return fn(*args, **kwargs)

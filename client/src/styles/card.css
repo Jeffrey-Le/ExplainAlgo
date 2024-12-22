@@ -4,10 +4,10 @@
 
 .card {
     max-height: 65vh;
-    aspect-ratio: 0.8 / 1;
+    width: 100%;
 }
 
 .cardCont {
     max-height: 65vh;
-    aspect-ratio: 0.8 / 1;
+    width: 50vh;
 }

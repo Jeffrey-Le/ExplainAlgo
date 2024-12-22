@@ -1,8 +1,4 @@
-import {} from 'react';
-
 import Container from "../../components/Container";
-
-import NavBar from '../../components/NavBar';
 
 import IntroSec from './IntroSec';
 
@@ -11,6 +7,8 @@ import PurposeSec from './PurposeSec';
 import "../../styles/home.css";
 
 function HomePage() {
+ 
+
     return (
         <>
             <Container classes="home flex-col">

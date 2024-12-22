@@ -5,8 +5,8 @@ from flask_wtf.csrf import generate_csrf
 import json
 from marshmallow import ValidationError
 
-from api.schema import ProblemSchema
-from api.model import Problem
+from api.schema import ProblemSchema, ProblemSolutionSchema
+from api.model import Problem, Type
 from gemini.response_analyzer import analyze_response
 from extensions import db, csrf, gem, model
 
@@ -29,16 +29,69 @@ def get_problems():
     return jsonify(result), 200
 
 @problem.route('/add', methods=['POST'])
-@role_required('admin')
+#@role_required('admin')
 def add_problem():
-    schema = ProblemSchema()
+    problem_schema = ProblemSchema()
+    solution_schema = ProblemSolutionSchema()
+
+    raw_data = request.get_json()
+
+    problem_data = raw_data.get("problem")
+    solution_data = raw_data.get("solution")
+    rubric_data = raw_data.get("rubric")
+
+    problem_data["rubric"] = rubric_data
+
+    tags = problem_data.get('key_types', [])
+
+    problem_data.pop('key_types', None)
+
     try:
-        problem_data = schema.load(request.get_json(), session=db.session)
-        db.session.add(problem_data)
+        problem = problem_schema.load(problem_data, session=db.session)
+        db.session.add(problem)
         db.session.commit()
-        return schema.jsonify(problem_data), 201
     except ValidationError as err:
         return jsonify(err.messages), 400
+    
+    print("passed problem")
+    
+    try:
+        solution_data["problem_id"] = problem.id
+        solution = solution_schema.load(solution_data, session=db.session)
+        db.session.add(solution)
+        db.session.commit()
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    print("passed solution")
+    
+    try:
+        # Process and link key_types
+        for tag in tags:
+            # Check if the type already exists in the database
+            type_entry = Type.query.filter_by(type_name=tag).first()
+
+            if not type_entry:
+                # Create new type if it doesn't exist
+                type_entry = Type(type_name=tag)
+                db.session.add(type_entry)
+
+            # Link the type to the problem
+            problem.types.append(type_entry)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    print("passed tags")
+    
+    db.session.commit()
+
+    response = {
+        "problem": problem_schema.dump(problem),
+        "solution": solution_schema.dump(solution),
+        "rubric": problem.rubric
+    }
+
+    return jsonify(response), 201
     
 @problem.route('/create', methods=['POST'])
 @csrf.exempt
@@ -51,10 +104,12 @@ def create_problem():
 
     try:
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
     except ValidationError as err:
         return jsonify(err.messages), 400
 
-    print('CReating a Problem')
+    print('Creating a Problem')
 
     try :
         prompt = data.get('Prompt')

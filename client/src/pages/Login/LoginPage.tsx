@@ -1,4 +1,3 @@
-import { ReactNode, useEffect } from "react";
 import Container from "../../components/Container";
 import LoginForm from "./LoginForm";
 
@@ -9,7 +8,7 @@ function LoginPage() {
 
     return (
         <>
-        <Container classes="justify-center items-center">
+        <Container classes="justify-center items-center bg-gray-800">
             <LoginForm classes="bg-green-200" />
         </Container>
         </>

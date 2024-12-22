@@ -1,4 +1,5 @@
 from extensions import db
+from sqlalchemy.dialects.postgresql import JSONB
 
 class Problem(db.Model):
     __tablename__ = 'problem'
@@ -7,6 +8,9 @@ class Problem(db.Model):
     question_title = db.Column(db.String(100), nullable=False)
     question = db.Column(db.Text, nullable=False)
     difficulty_id = db.Column(db.Integer, db.ForeignKey('difficulty.id'), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    example = db.Column(JSONB, nullable=True)
+    rubric = db.Column(JSONB, nullable=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
 

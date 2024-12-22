@@ -55,8 +55,14 @@ def login():
     token = authenticate_user(username, password)
 
     if token:
-        response = make_response(jsonify({'message': 'Login Successful!'}))
-        response.set_cookie('access_token', token['access_token'], httponly=True, secure=True, samesite='Lax')
+        user = User.query.filter_by(username=username).first()
+
+        schema = UserSchema()
+        result = schema.dump(user)
+
+        response = make_response(jsonify({'message': 'Login Successful!', 'user': result}))
+        response.set_cookie('access_token', token['access_token'], httponly=True, secure=False, samesite='Lax', max_age=3600)
+
         return response, 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
@@ -109,6 +115,12 @@ def register():
     
     return jsonify({'message': 'User created successfully. Please verify your email to complete registration.'}), 201
 
+@user.route('/logout', methods=['POST'])
+def logout():
+    response = make_response(jsonify({'message': 'Logged Out!'}))
+    response.set_cookie('access_token', '', expires=0) # Clear Cookie Token
+    return response
+
 @user.route('/protected', methods=['GET'])
 def protected():
     token = request.cookies.get('access_token')
@@ -122,12 +134,13 @@ def protected():
 @user.route('/admin/', methods=['GET'])
 @role_required('admin')
 def admin_dashboard():
-    csrf_header = request.headers.get('X-CSRF-Token')
-    csrf_cookie = request.cookies.get('csrf_token')
-    print(f"CSRF Header: {csrf_header}")
-    print(f"CSRF Cookie: {csrf_cookie}")
+    # csrf_header = request.headers.get('X-CSRF-Token')
+    # csrf_cookie = request.cookies.get('csrf_token')
+    # print(f"CSRF Header: {csrf_header}")
+    # print(f"CSRF Cookie: {csrf_cookie}")
     
-    if csrf_header == csrf_cookie:
-        return jsonify({"msg": "Welcome to the admin dashboard! The same tokens!"})
-    else:
-        return jsonify({"msg": "Welcome to the admin dashboard! Not the same tokens!"})
+    # if csrf_header == csrf_cookie:
+    #     return jsonify({"msg": "Welcome to the admin dashboard! The same tokens!"})
+    # else:
+    #     return jsonify({"msg": "Welcome to the admin dashboard! Not the same tokens!"})
+    return jsonify({"msg": "Welcome to the admin dashboard!"})

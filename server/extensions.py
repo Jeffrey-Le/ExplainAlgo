@@ -17,7 +17,7 @@ from gemini.problem_generator import ProblemGenerator
 # Defaults
 db = SQLAlchemy()
 ma = Marshmallow()
-limiter = Limiter(get_remote_address, default_limits=["200 per day", "50 per hour"])
+limiter = Limiter(get_remote_address, default_limits=["1000 per day", "50 per hour"])
 csrf = CSRFProtect()
 
 # Basic Configuration

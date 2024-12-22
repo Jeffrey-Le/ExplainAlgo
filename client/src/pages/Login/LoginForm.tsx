@@ -1,13 +1,12 @@
 import {useRef} from 'react';
 
-import { redirect } from 'react-router-dom';
-
 import InputBox from "../../components/InputBox"
 import Form from '../../components/Form';
 
 import { loginAuth } from '../../services/authService';
-import { useUserContext } from '../../contexts/userContext';
 
+import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../contexts/userContext';
 interface LoginFormProps {
     classes?: string;
 }
@@ -15,6 +14,10 @@ interface LoginFormProps {
 export default function LoginForm({classes}: LoginFormProps) {
     const nameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+
+    const navigate = useNavigate();
+
+    const userObj = useUserContext();
     
     const validation = (): boolean => {
         // Validation
@@ -23,7 +26,7 @@ export default function LoginForm({classes}: LoginFormProps) {
         if (!nameRef.current || !passwordRef.current)
             return false;
         
-        if (nameRef.current?.value.length < 4) {
+        if (nameRef.current?.value.length < 3) {
             nameRef.current.setCustomValidity('Your Username must be Greater than 3 Charcters');
             nameRef.current.reportValidity();
             return false;
@@ -46,10 +49,12 @@ export default function LoginForm({classes}: LoginFormProps) {
     }
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const target = e.currentTarget;
+        console.log(target);
         console.log('clciked');
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!validation())
@@ -62,14 +67,13 @@ export default function LoginForm({classes}: LoginFormProps) {
             password: passwordRef.current?.value || '',
         }
 
-        const data = loginAuth({newUser});
+        const data = await loginAuth({user: newUser});
       
-        console.log(data);
+        userObj.setUser(data?.user);
 
-        const user = useUserContext();
+        navigate('/');
 
-        if (user)
-            return redirect("/home");
+        //navigate('/');
 
         // const token = fetchProtectedData();
         // console.log(token);

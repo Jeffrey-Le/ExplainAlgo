@@ -5,6 +5,7 @@ type UserContextType = {
     user?: object | null;
     setUser: (user: object | null) => void;
     logout: () => void;
+    fetchUser: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,7 +29,8 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
     const logout = async () => {
         try {
-          await axios.post('/api/logout');
+          const response = await axios.post('/api/users/logout');
+          console.log(response.data);
           setUser(null); // Clear the user context
         } catch (error) {
           console.error('Logout failed', error);
@@ -36,7 +38,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       };
   
     return (
-      <UserContext.Provider value={{ user, setUser, logout }}>
+      <UserContext.Provider value={{ user, setUser, logout, fetchUser }}>
         {children}
       </UserContext.Provider>
     );
@@ -46,7 +48,7 @@ function useUserContext() {
     const user = useContext(UserContext);
 
     if (user === undefined) {
-        throw new Error("useListItemContext must be used with a ListItemContext");
+        throw new Error("useUserContext must be used with a UserContext");
     }
 
     return user;
