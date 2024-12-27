@@ -32,7 +32,7 @@ class ProblemSolutionSchema(ma.SQLAlchemyAutoSchema):
     def process_postdump(self, data, **kwargs):
         if "problem_id" in data:
             data.pop("problem_id", None) 
-            
+
         return data
 
 # Manually

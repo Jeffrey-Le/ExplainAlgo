@@ -1,10 +1,9 @@
 import { useProblemsListPage } from "./ProblemsListPage.hooks";
 
 import List from "../../components/List";
-import Container from "../../components/Container";
 
-import { useListItemContext } from "../../contexts/problemContext";
-import ListItem from "../../components/ListItem";
+import "../../styles/problemList.css"
+
 
 function ProblemsListPage() {
     const {newProblems, isLoading, isError, error} = useProblemsListPage();
@@ -22,9 +21,8 @@ function ProblemsListPage() {
 
     return (
         <>
-            
-            <div>
-                <List items={newProblems}/>
+            <div className="scrollable-container">
+               \<List items={newProblems} classes={"listbox"}/> 
             </div>
         </>
     )

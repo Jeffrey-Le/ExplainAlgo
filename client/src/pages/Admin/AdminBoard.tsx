@@ -8,32 +8,54 @@ import Form from "../../components/Form";
 
 import "../../styles/admin.css";
 import { useEffect, useState } from "react";
-import Button from "../../components/Button";
+
+interface ProblemResponseType {
+    title?: string,
+    question?: string,
+    difficulty?: string,
+    description?: string,
+    key_types?: Array<string>
+    example?: object
+}
+
+type ProblemPostType = Omit<ProblemResponseType, 'title'> & {
+    questionTitle?: string
+}
+
+interface PromptType {
+    Prompt?: FormDataEntryValue,
+    Problem?: FormDataEntryValue,
+    Solution?: FormDataEntryValue
+}
+
+interface DataType {
+    problem?: ProblemResponseType,
+    solution?: {solution?: string},
+    rubric?: object
+}
 
 function AdminBoard() {
-    const [data, setData] = useState({'problem': {}, 'solution': {}, 'rubric': {}});
+    const [data, setData] = useState<DataType>({'problem': {}, 'solution': {}, 'rubric': {}});
     
-    const [selectedType, setSelectedType] = useState('problem');
+    const [selectedType, setSelectedType] = useState<keyof DataType>('problem');
 
     useEffect(() => {
         console.log(data);
     }, [data]);
 
 
-    const createNewEntry = async (prompt: object) => {
-        const allKeys = Object.keys(data);
+    const createNewEntry = async (prompt: PromptType) => {
+        const allKeys = Object.keys(data) as (keyof DataType)[];
 
         let act = 1;
         
         while (act < 4) {
             if (act === 2 && prompt.Problem) {
-                console.log(data);
-                prompt.Problem = data.problem.question;
+                prompt.Problem = data.problem?.question;
             }
 
             if (act === 3 && prompt.Solution) {
-                console.log(data);
-                prompt.Solution = data.solution.solution;
+                prompt.Solution = data.solution?.solution;
             }
 
             try {
@@ -43,11 +65,8 @@ function AdminBoard() {
                     }
                 });
 
-                console.log(response.data);
-                console.log(act);
-                
                 setData((prev) => {
-                    const newData = prev;
+                    const newData: DataType = prev;
                     newData[allKeys[act-1]] = response.data;
 
                     if (response.data.rubric)
@@ -76,7 +95,7 @@ function AdminBoard() {
       
         console.log(inputValue); // Logs the input value
 
-        const prompt = {
+        const prompt: PromptType = {
             "Prompt": `${inputValue}`,
             "Problem": `${inputValue}`,
             "Solution": `${inputValue}`,
@@ -85,10 +104,21 @@ function AdminBoard() {
         if (selectedType === 'problem') {
             await createNewEntry(prompt);
 
+            setData((prev) => {
+                const newData: {problem?: ProblemPostType, solution?: {solution?: string}, rubric?: object} = prev;
+
+                if (newData.problem)
+                    newData.problem.questionTitle = prev.problem?.title;
+
+                return newData;
+            });
+
+
             const postRes = await axios.post(`/api/problems/add`, data, {
                 headers: {
                     'Content-Type': 'application/json', // Explicitly set JSON
-                }
+                },
+                withCredentials: true
             });
 
             console.log(postRes.data);

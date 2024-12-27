@@ -1,16 +1,14 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
-from flask_wtf.csrf import generate_csrf
+from flask_wtf.csrf import CSRFError, generate_csrf
 
-import json
 from marshmallow import ValidationError
 
 from api.schema import ProblemSchema, ProblemSolutionSchema
-from api.model import Problem, Type
+from api.model import Problem, Type, ProblemSolution
 from gemini.response_analyzer import analyze_response
 from extensions import db, csrf, gem, model
 
-from api.util.decorators import role_required
+from api.util.decorators import role_required, csrf_required
 
 problem = Blueprint('problem_routes', __name__, url_prefix='/problems')
 
@@ -28,7 +26,33 @@ def get_problems():
 
     return jsonify(result), 200
 
+@problem.route('/findID/', methods=['GET'])
+def get_problem_id():
+    id = request.args.get('id', type=int)
+
+    problem = Problem.query.filter(Problem.id == id).limit(1).all()
+
+    schema = ProblemSchema(many=True)
+    result = schema.dump(problem)
+
+    return jsonify(result), 200
+
+@problem.route('/findSolID/', methods=['GET'])
+def get_solution_id():
+    id = request.args.get('id', type=int)
+
+    solution = ProblemSolution.query.filter(ProblemSolution.problem_id == id).limit(1).all()
+
+    schema = ProblemSolutionSchema(many=True)
+    result = schema.dump(solution)
+
+    print(result)
+    print('printed res')
+
+    return jsonify(result), 200
+
 @problem.route('/add', methods=['POST'])
+@csrf_required
 #@role_required('admin')
 def add_problem():
     problem_schema = ProblemSchema()
@@ -45,12 +69,14 @@ def add_problem():
     tags = problem_data.get('key_types', [])
 
     problem_data.pop('key_types', None)
+    problem_data.pop('title', None)
 
     try:
         problem = problem_schema.load(problem_data, session=db.session)
         db.session.add(problem)
         db.session.commit()
     except ValidationError as err:
+        print(err.messages)
         return jsonify(err.messages), 400
     
     print("passed problem")

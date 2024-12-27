@@ -4,6 +4,7 @@ import { UserType } from "../../types/types";
 import AdminBoard from "./AdminBoard";
 
 import "../../styles/admin.css"
+import Unauthorized from "../../components/Unauthorized";
 
 function AdminPage() {
     const userObj = useUserContext();
@@ -14,9 +15,9 @@ function AdminPage() {
 
     return (
         <>
-            <Container classes="items-center flex-col">
+            <Container classes="items-center flex-col" style={{backgroundColor: "#4b4767"}}>
                 {
-                    user?.role === 'admin' ? <AdminBoard/> : <div>  Access Denied </div>
+                    user?.role === 'admin' ? <AdminBoard/> : <Unauthorized/>
                 }
             </Container>
         </>

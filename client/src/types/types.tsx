@@ -1,8 +1,11 @@
 export interface ProblemType {
     id?: number;
     question?: string,
-    questionTitle?: string,
-    difficulty?:DifficultyType,
+    questionTitle?: string | null,
+    difficulty?: DifficultyType,
+    description?: string,
+    example?: object,
+    rubric?: object,
     created_at?: string,
     updated_at?: string,
     solutions: ProblemSolutionType[]

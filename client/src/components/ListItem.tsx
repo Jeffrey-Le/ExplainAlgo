@@ -35,7 +35,7 @@ function ListItem({children, classes}: ListItemProps) {
     const handleProblemClick = () => {
         // navigate to problem screen with problem ID = id
         console.log('In Problem Click:', id);
-        navigate(`/problems/${children?.questionTitle}`);
+        navigate(`/problems/${children?.questionTitle}`, { state: { problemID: id } });
     };
 
     const handleSolutionClick = () => {
@@ -48,10 +48,10 @@ function ListItem({children, classes}: ListItemProps) {
             <Container classes={`flex-row justify-center items-center ${classes}`}>
                 {children &&
                 <>
-                    <span className="flex items-center" style={{flexGrow: 6, paddingLeft: '5vh'}}> <div onClick={handleProblemClick}>{children?.questionTitle} </div></span>
-                    <span className="flex justify-center items-center" style={{flexGrow: 1}}> <div onClick={handleSolutionClick}> Solution </div> </span>
-                    <span className="flex justify-center items-center" style={{flexGrow: 2}}>{children?.difficulty?.level}</span>
-                    <span className="flex justify-center items-center" style={{flexGrow: 1}}>Completion</span>
+                    <span className="flex items-center" style={{flexBasis: "60%", paddingLeft: '5vh'}}> <div onClick={handleProblemClick}>{children?.questionTitle} </div></span>
+                    <span className="flex justify-center items-center cursor-pointer" style={{flexBasis: "10%"}}> <div onClick={handleSolutionClick}> Solution </div> </span>
+                    <span className="flex justify-center items-center" style={{flexBasis: "20%"}}>{children?.difficulty?.level}</span>
+                    <span className="flex justify-center items-center" style={{flexBasis: "10%"}}>Completion</span>
                 </>
                 }
             </Container>

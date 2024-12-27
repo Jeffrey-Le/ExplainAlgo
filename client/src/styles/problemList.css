@@ -1,0 +1,11 @@
+.scrollable-container {
+    width: inherit; /* Fixed width */
+    height: 90vh; /* Fixed height */
+    overflow-x: hiddne; /* Horizontal scrolling */
+    overflow-y: scroll;
+    margin-top: 8vh;
+}
+
+.scrollable-container::-webkit-scrollbar {
+display: none; /* Hide scrollbar */
+}

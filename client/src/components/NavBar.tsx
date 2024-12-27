@@ -22,7 +22,7 @@ function NavBar({color}: NavBarProps) {
                     <nav className='navbar'>
                        <NavLink to="/" className="rot">Home</NavLink>
                        <NavLink to="/problems" className="rot">Problems</NavLink>
-                       { user ? <NavLink to="/" onClick={() => {userObj.logout();}} className="rot">Logout</NavLink>:
+                       { user ? <NavLink to="/" onClick={() => {userObj.logout();}} className="rot">Logout</NavLink> :
                         <>
                             <NavLink to="/login" className="rot">Login</NavLink>
                             <span className='font-medium' style={{marginLeft: 10, fontSize: "18px"}}>/</span>

@@ -2,17 +2,11 @@ import axios from "axios";
 
 // Non-HTTP Only Cookies
 export function getCookie(name: string) {
-     // Create a string with all the cookies
-     const cookieString = `; ${document.cookie}`;
-     // Split the string to find the specific cookie
-     const parts = cookieString.split(`; ${name}=`);
-     // If the cookie exists, return its value
-     if (parts.length === 2) {
-        if (parts.length === 2)
-            return parts.pop()?.split(';').shift();
-     }
-     // Return null if the cookie does not exist
-     return null;
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+        return match[2];  // Return the cookie value
+    }
+    return null;
 }
 
 // For HTTPOnly Cookies

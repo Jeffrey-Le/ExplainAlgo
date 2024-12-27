@@ -1,15 +1,20 @@
-import {useEffect, useState} from 'react';
-import {useListItemContext} from '../../contexts/problemContext';
+import {useEffect} from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import axios from 'axios';
+import { fetchProblemByID, fetchProblemSolutionByID } from '../../services/problemService';
+import { useLocation } from 'react-router-dom';
 
 const useProblemScreenPage = () => {
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const location = useLocation();
+    const problemID = location.state?.problemID;
+    const { data: problem, isError, error, isLoading } = useQuery({
+        queryKey: ['data', problemID],          // First argument: Query key
+        queryFn: () => fetchProblemByID(problemID),          // Second argument: Fetch function
+        staleTime: 5 * 60 * 1000, // 5 minutes of fresh data time
+        gcTime: 10 * 60 * 1000, // Refteches new cache every 10 minutes of inactive data
+      });
 
-    useEffect(() => {
-        // Fetch Data
-    }, []);
+  
 
     useEffect(() => {
         // Send Analytics Events
@@ -18,11 +23,27 @@ const useProblemScreenPage = () => {
     // Other Effects
     // Probably just rendering effects
 
-    if (loading)
-        return <div> Loading... </div>;
-
-    if (error)
-        return <div> {error} </div>;
+    return {problem, isLoading, isError, error};
 }
 
-export {useProblemScreenPage};
+const useDisplaySubBox = () => {
+    const location = useLocation();
+    const problemID = location.state?.problemID;
+    const {data: solution, isError, error, isLoading} = useQuery({
+        queryKey: ['solutionData', problemID],
+        queryFn: () => fetchProblemSolutionByID(problemID),
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
+    })
+
+    useEffect(() => {
+        // Send Analytics Events
+    }, []);
+
+    // Other Effects
+    // Probably just rendering effects
+
+    return {solution, isLoading, isError, error};
+}
+
+export {useProblemScreenPage, useDisplaySubBox};

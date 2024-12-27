@@ -4,17 +4,23 @@ import {useListItemContext} from '../../contexts/problemContext';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { fetchProblems } from '../../services/problemService';
+import { ProblemType } from '../../types/types';
 
 const useProblemsListPage = () => {
     const {setList} = useListItemContext();
     const quantity = 20;
 
+    const queryClient = useQueryClient();
+    const cachedProblems = queryClient.getQueryData<ProblemType[]>(['problems', quantity]);
+
     //const {data, loading, error, fetchData} = useFetch<typeof problems>('/api/problems?quantity=20');
-    const { data: newProblems, isError, error, isLoading } = useQuery({
+    const { data: newProblems, isError, error, isLoading} = useQuery({
         queryKey: ['problems', quantity],          // First argument: Query key
         queryFn: () => fetchProblems(quantity),          // Second argument: Fetch function
         staleTime: 5 * 60 * 1000, // 5 minutes of fresh data time
         gcTime: 10 * 60 * 1000, // Refteches new cache every 10 minutes of inactive data
+        initialData: cachedProblems,
+        
       });
 
     useEffect(() => {
@@ -32,9 +38,4 @@ const useProblemsListPage = () => {
     return {newProblems, isLoading, isError, error};
 }
 
-const useCachedProblems = (quantity: number) => {
-    const queryClient = useQueryClient();
-    return queryClient.getQueryData(['problems', quantity]);
-}
-
-export {useProblemsListPage, useCachedProblems};
+export {useProblemsListPage};

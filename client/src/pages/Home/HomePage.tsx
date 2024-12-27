@@ -6,8 +6,8 @@ import PurposeSec from './PurposeSec';
 
 import "../../styles/home.css";
 
+
 function HomePage() {
- 
 
     return (
         <>

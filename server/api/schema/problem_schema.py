@@ -9,7 +9,7 @@ from api.schema.problem_solution_schema import ProblemSolutionSchema
 
 # For the full ProblemList Query Object
 class ProblemSchema(ma.SQLAlchemyAutoSchema):
-    question_title = ma.Str(data_key='title')  # Serialize 'question_title' as 'title'
+    question_title = ma.Str(data_key='questionTitle')  # Serialize 'question_title' as 'questionTitle'
     created_at = ma.DateTime(data_key='createdDate', dump_only=True)  # Serialize 'created_at' as 'createdDate'
     updated_at = ma.DateTime(data_key='updatedDate', dump_only=True)  # Serialize 'updated_at' as 'updatedDate'
 

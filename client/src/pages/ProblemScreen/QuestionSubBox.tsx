@@ -2,12 +2,13 @@ import Container from "../../components/Container";
 import Tag from "../../components/Tag";
 
 import "../../styles/screen.css"
-
+import { ProblemType } from "../../types/types";
 interface QuestionSubBoxProps {
     title?: string
+    data?: ProblemType
 }
 
-function QuestionSubBox({title}: QuestionSubBoxProps) {
+function QuestionSubBox({title, data}: QuestionSubBoxProps) {
     // Fetch Data And Display Question Here
 
     console.log(title);
@@ -19,8 +20,10 @@ function QuestionSubBox({title}: QuestionSubBoxProps) {
                 <div className="flex justify-center tags">
                     <Tag>  Hello </Tag>
                 </div>
-                <div className="flex justify-center text-xl"> Question Content or Question would go here </div>
-                <div className="flex justify-center example"> Example here </div>
+                <div className="flex justify-center text-xl"> {data?.question} </div>
+                <div className="flex justify-center text-m"> {data?.description} </div>
+                {data ? <><div className="flex justify-center example"> {data.example?.input} </div>
+                <div className="flex justify-center example"> {data.example?.output} </div> </>: <div></div>}
             </Container>
         </>
     )

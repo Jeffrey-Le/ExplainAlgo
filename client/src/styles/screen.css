@@ -47,5 +47,23 @@
 
 .display {
     grid-area: display;
-    max-height: 40vh;
+    max-height: 39vh;
+    grid-template-rows: 10% 90%;
 }
+
+
+
+.grid li {
+    background-color: lightgray;
+    text-align: center;
+    border: 1px solid gray;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    width: 10vh;
+    height: 3.9vh;
+  }
+  
+  .grid li.active {
+    background-color: lightblue;
+    border-color: blue;
+  }

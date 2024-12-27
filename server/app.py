@@ -41,8 +41,13 @@ def create_app():
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
     app.config['JWT_COOKIE_CSRF_PROTECT'] = True # Enables CSRF protection
-    app.config['SESSION_COOKIE_NAME'] = 'flask_session'  # Empty name to avoid setting a session cookie
-    app.config['WTF_CSRF_ENABLED'] = False
+    #app.config['SESSION_COOKIE_NAME'] = 'flask_session'  # Empty name to avoid setting a session cookie
+    app.config['SESSION_COOKIE_DOMAIN'] = False
+    app.config['CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_FIELD_NAME'] = 'csrf_token'
+    app.config['CSRF_SESSION_KEY'] = 'csrf_token'
+    app.config['WTF_CSRF_CHECK_DEFAULT'] = False
     #app.config['MODEL'] = model
 
     #CORS(app, resources={r"/*": {"origins": "*"}})

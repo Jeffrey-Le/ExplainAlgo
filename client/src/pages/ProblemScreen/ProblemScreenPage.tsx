@@ -11,25 +11,19 @@ import "../../styles/screen.css"
 
 function ProblemScreenPage() {
     const {question_title} = useParams();
-    //const {newProblems, isLoading, isError, error} = useProblemScreenPage();
 
-    // if (isLoading)
-    //     return <div> Loading... </div>;
+    const {problem, isLoading, isError, error} = useProblemScreenPage();
 
-    // if (isError)
-    //     return <div> {error?.message} </div>;
+    if (isLoading)
+        return <div> Loading... </div>;
 
-    /*
-        <Container classes="justify-center items-center flex-col">
-                <AnswerSubBox />
-                <DisplaySubBox />
-            </Container>
-    */
+    if (isError)
+        return <div> {error?.message} </div>;
 
     return (
         <>
         <Container classes="grid screen gap-2">
-            <QuestionSubBox title={question_title} />
+            <QuestionSubBox title={question_title} data={problem[0]}/>
             <AnswerSubBox />
             <DisplaySubBox />
         </Container>

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_wtf.csrf import generate_csrf
 
-from extensions import db, logger, limiter
+from extensions import db, logger, limiter, csrf
 
 from api.schema import UserSchema
 from api.model import User
@@ -18,7 +18,7 @@ user = Blueprint('user_routes', __name__, url_prefix='/users')
 def get_csrf_token():
     token = generate_csrf()
     response = jsonify({'csrf_token': token})
-    response.set_cookie('csrf_token', token, path='/', httponly=True, samesite='Lax')
+    response.set_cookie('csrf_token', token, path='/', samesite='Strict', secure=True)
     return response
 
 @user.route('/', methods=['GET'])
@@ -43,16 +43,16 @@ def add_user():
 
 @user.route('/login', methods=['POST'])
 @limiter.limit("10 per minute") # Limit to 10 requests per minute
+@csrf.exempt
 def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
 
     logger.info(f'Login attempt for username: {username}')
-
-    #get_csrf_token()
     
     token = authenticate_user(username, password)
+    token['csrf_token'] = generate_csrf()
 
     if token:
         user = User.query.filter_by(username=username).first()
@@ -62,6 +62,7 @@ def login():
 
         response = make_response(jsonify({'message': 'Login Successful!', 'user': result}))
         response.set_cookie('access_token', token['access_token'], httponly=True, secure=False, samesite='Lax', max_age=3600)
+        response.set_cookie('csrf_token', token['csrf_token'], httponly=True, samesite='Lax', secure=False, path='/')
 
         return response, 200
     else:
@@ -118,7 +119,12 @@ def register():
 @user.route('/logout', methods=['POST'])
 def logout():
     response = make_response(jsonify({'message': 'Logged Out!'}))
-    response.set_cookie('access_token', '', expires=0) # Clear Cookie Token
+    # response.set_cookie('access_token', '', expires=0) # Clear Cookie Token
+    # response.set_cookie('csrf_token', '', expires=0) # Clear Cookie Token
+    # response.set_cookie('flask_session', '', expires=0) # Clear Cookie Token
+    response.delete_cookie('access_token')
+    response.delete_cookie('csrf_token')
+    response.delete_cookie('flask_session')
     return response
 
 @user.route('/protected', methods=['GET'])

@@ -22,18 +22,20 @@ function App() {
   const location = useLocation();
 
   const getNavBarColor = () => {
-    switch(location.pathname) {
-      case '/':
+    const pathname = location.pathname;
+
+    switch(true) {
+      case pathname === '/':
         return 'bg-gray-300';
-      case '/problems':
+      case pathname === '/problems':
         return 'bg-orange-300';
-      case '/login':
+      case pathname === '/login':
         return 'bg-green-500';
-      case '/register':
+      case pathname === '/register':
         return 'bg-green-500';
-      case '/problems/:question_title':
+      case pathname.startsWith('/problems/'):
         return 'bg-purple-500';
-      case '/admin':
+      case pathname === '/admin':
         return 'bg-blue-500';
       default:
         return 'defaultColor';
