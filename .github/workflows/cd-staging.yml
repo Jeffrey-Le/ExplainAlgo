@@ -119,4 +119,5 @@ jobs:
             --rm \
             -n explainalgo-staging \
             -it \
-            -- curl -sf http://api-gateway:5000/health/
+            -- curl -sf http://api-gateway:5000/api/health/
+          echo "Smoke test passed"

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from api.schema import DifficultySchema
 from api.model import Difficulty
 
-difficulty = Blueprint('difficulty_routes', __name__, url_prefix='/difficulties')
+difficulty = Blueprint('difficulty_routes', __name__, url_prefix='/api/difficulties')
 
 @difficulty.route('/all', methods=['GET'])
 def get_all_difficulties():

@@ -12,7 +12,7 @@ from api.service.validate_service import send_verification_email, validate_passw
 from api.service.user_service import get_user_by_id
 from api.util.decorators import role_required
 
-user = Blueprint('user_routes', __name__, url_prefix='/users')
+user = Blueprint('user_routes', __name__, url_prefix='/api/users')
 
 @user.route('/csrf-token', methods=['GET'])
 def get_csrf_token():

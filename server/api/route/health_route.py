@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from extensions import db, limiter
 from sqlalchemy import text
 
-health = Blueprint('health', __name__, url_prefix='/health')
+health = Blueprint('health', __name__, url_prefix='/api/health')
 
 @health.route('/', methods=['GET'])
 @limiter.exempt

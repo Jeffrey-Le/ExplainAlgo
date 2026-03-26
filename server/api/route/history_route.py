@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from api.schema import HistorySchema
 from api.model import History
 
-history = Blueprint('history_routes', __name__, url_prefix='/history')
+history = Blueprint('history_routes', __name__, url_prefix='/api/history')
 
 @history.route('/all', methods=['GET'])
 def get_history():

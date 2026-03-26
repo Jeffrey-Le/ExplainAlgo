@@ -10,7 +10,7 @@ from extensions import db, csrf, gem, model
 
 from api.util.decorators import role_required, csrf_required
 
-problem = Blueprint('problem_routes', __name__, url_prefix='/problems')
+problem = Blueprint('problem_routes', __name__, url_prefix='/api/problems')
 
 @problem.route('/', methods=['GET'])
 def get_problems():
