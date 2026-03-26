@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+# Dependencies installed: 2026-03-26
 RUN pip install --upgrade pip \
     && pip install --prefix=/install --no-cache-dir -r requirements.txt
 

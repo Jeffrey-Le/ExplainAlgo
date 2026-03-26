@@ -35,3 +35,5 @@ wrapt==1.16.0
 marko==2.1.2
 google-generativeai==0.8.3
 Flask-WTF==1.2.1
+google-generativeai==0.8.3
+redis==5.0.1
