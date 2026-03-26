@@ -33,10 +33,8 @@ jobs:
 
       - name: Resolve SHA from tag
         id: resolve
-        # The git tag points to a commit. We find the image built
-        # from that commit's short SHA (done by cd-staging.yml).
         run: |
-          SHA=$(git ls-remote origin refs/tags/${{ github.ref_name }} | cut -c1-7)
+          SHA=$(git rev-parse --short=7 HEAD)
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
           echo "Deploying images tagged: ${SHA}"
 
@@ -84,7 +82,7 @@ jobs:
       - name: Resolve image tag
         id: meta
         run: |
-          SHA=$(git ls-remote origin refs/tags/${{ github.ref_name }} | cut -c1-7)
+          SHA=$(git rev-parse --short=7 HEAD)
           echo "tag=${SHA}" >> $GITHUB_OUTPUT
 
       - name: Tag images as :latest in ECR
