@@ -18,6 +18,7 @@ jobs:
   verify-staging-image:
     name: Verify staging image exists
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Configure AWS credentials
@@ -119,7 +120,7 @@ jobs:
 
       - name: Verify production health
         run: |
-          PROD_URL=${{ secrets.PROD_URL }}
+          PROD_URL=${{ vars.PROD_URL }}
           for i in {1..10}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" $PROD_URL/api/health)
             if [ "$STATUS" = "200" ]; then
