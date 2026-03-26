@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 
 function useFetch<T>(url: string, options?: AxiosRequestConfig) {
@@ -17,7 +17,7 @@ function useFetch<T>(url: string, options?: AxiosRequestConfig) {
       });
       setData(response.data);
       if (onSuccess) {
-        onSuccess(response.data); // Call the callback function with the fetched data
+        onSuccess(response.data);
       }
     } catch (err) {
         if (err instanceof Error)

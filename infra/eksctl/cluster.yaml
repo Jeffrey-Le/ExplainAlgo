@@ -1,0 +1,39 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: explainalgo
+  region: us-west-1
+  version: "1.32"
+
+# ── Node Groups ──────────────────────────────────────────────────
+managedNodeGroups:
+  - name: app-nodes
+    instanceType: t3.medium   # 2 vCPU, 4GB RAM — enough for all 3 services + backing services
+    minSize: 2
+    maxSize: 4                # HPA can scale pods; cluster autoscaler handles nodes
+    desiredCapacity: 2
+    volumeSize: 20
+    privateNetworking: true   # nodes in private subnets, only ALB is public
+    labels:
+      role: app
+    tags:
+      Project: explainalgo
+      Environment: production
+
+# ── Addons ───────────────────────────────────────────────────────
+addons:
+  - name: vpc-cni
+  - name: coredns
+  - name: kube-proxy
+  - name: aws-ebs-csi-driver  # required for PersistentVolumeClaims (Postgres, Redis)
+
+# ── IAM for cluster autoscaler ───────────────────────────────────
+iam:
+  withOIDC: true              # needed for service account IAM roles
+  serviceAccounts:
+    - metadata:
+        name: cluster-autoscaler
+        namespace: kube-system
+      wellKnownPolicies:
+        autoScaler: true

@@ -35,8 +35,10 @@ def create_app():
     CORS(app, supports_credentials=True)
 
     app.config.from_object(os.environ.get('APP_SETTINGS'))
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['CORS_HEADERS'] = 'Content-Type'
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key')
     app.config['JWT_TOKEN_LOCATION'] = ['cookies']
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
@@ -75,11 +77,13 @@ def create_app():
     
     # Import Models
     from api.model import User, History, Problem, ProblemType, Difficulty, Type, ProblemSolution
+    
 
     # Import Blueprints
-    from api.route import problem as problem_route_bp, difficulty as difficulty_route_bp, user as user_route_bp, history as history_route_bp
+    from api.route import problem as problem_route_bp, difficulty as difficulty_route_bp, user as user_route_bp, history as history_route_bp, health as health_bp
 
     # Register Blueprints
+    app.register_blueprint(health_bp)
     app.register_blueprint(problem_route_bp)
     app.register_blueprint(difficulty_route_bp)
     app.register_blueprint(user_route_bp)

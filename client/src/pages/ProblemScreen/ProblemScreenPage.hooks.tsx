@@ -29,11 +29,14 @@ const useProblemScreenPage = () => {
 const useDisplaySubBox = () => {
     const location = useLocation();
     const problemID = location.state?.problemID;
-    const {data: solution, isError, error, isLoading} = useQuery({
+    const {data: solution, isError, error, isLoading, refetch, isFetching} = useQuery({
         queryKey: ['solutionData', problemID],
         queryFn: () => fetchProblemSolutionByID(problemID),
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000,
+        enabled: false,
+
+        
     })
 
     useEffect(() => {
@@ -43,7 +46,7 @@ const useDisplaySubBox = () => {
     // Other Effects
     // Probably just rendering effects
 
-    return {solution, isLoading, isError, error};
+    return {solution, isLoading, isError, error, refetch, isFetching};
 }
 
 export {useProblemScreenPage, useDisplaySubBox};

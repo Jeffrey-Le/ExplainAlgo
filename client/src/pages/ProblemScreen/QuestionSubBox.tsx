@@ -15,7 +15,7 @@ function QuestionSubBox({title, data}: QuestionSubBoxProps) {
 
     return (
         <>
-            <Container classes="items-center flex-col bg-green-300 grid rounded-md question">
+            <Container classes="items-center flex-col bg-green-300 grid rounded-md question p-6">
                 <div className="flex justify-center title"> {title} </div>
                 <div className="flex justify-center tags">
                     <Tag>  Hello </Tag>

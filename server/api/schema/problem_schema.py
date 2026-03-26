@@ -42,7 +42,8 @@ class ProblemSchema(ma.SQLAlchemyAutoSchema):
     def process_difficulty_output(self, data, **kwargs):
         """Convert 'difficulty_id' to 'difficulty level' for output."""
         if "difficulty" in data:
-            data["difficulty"] = data["difficulty"]["level"]
+            #data["difficulty"] = data["difficulty"]["level"]
+            data["difficulty"] = data["difficulty"]
         
         if "difficulty_id" in data:
             data.pop("difficulty_id", None)  # Remove the original 'difficulty' field

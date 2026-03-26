@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: explainalgo
+
+resources:
+  # App services
+  - deployments/frontend.yaml
+  - deployments/api-gateway.yaml
+  - deployments/ai-service.yaml
+  # Backing services
+  - deployments/postgres.yaml
+  - deployments/redis.yaml
+  # Ingress
+  - ingress/ingress.yaml
+  # Config
+  - configmaps/app-config.yaml

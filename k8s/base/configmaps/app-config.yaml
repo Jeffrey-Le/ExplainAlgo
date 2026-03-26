@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  # Flask environment — overridden per overlay
+  APP_SETTINGS: "config.ProductionConfig"
+  # Internal service URLs — use k8s DNS service names
+  AI_SERVICE_URL: "http://ai-service:8001"

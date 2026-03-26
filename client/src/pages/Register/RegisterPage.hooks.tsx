@@ -1,22 +1,11 @@
-import {useEffect, useState} from 'react';
-import { useQuery } from '@tanstack/react-query';
-import {useListItemContext} from '../../contexts/problemContext';
+import { useEffect } from 'react';
 
-import { fetchProblems } from '../../services/problemService';
-
-import axios from 'axios';
+// Removed unused imports: useState, useQuery, useListItemContext, fetchProblems, axios
 
 const useRegisterPage = () => {
     useEffect(() => {
-        
-    }, []);
-
-    useEffect(() => {
         // Send Analytics Events
     }, []);
-
-    // Other Effects
-    // Probably just rendering effects
 }
 
-export {useRegisterPage};
+export { useRegisterPage };

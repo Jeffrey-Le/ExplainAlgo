@@ -4,7 +4,6 @@ import Container from "../../components/Container"
 
 import "../../styles/screen.css"
 import { useDisplaySubBox } from "./ProblemScreenPage.hooks";
-import { useProblemsListPage } from "../ProblemsList/ProblemsListPage.hooks";
 
 interface ContentType {
     output?: string | null
@@ -12,27 +11,19 @@ interface ContentType {
 }
 
 function DisplaySubBox() {
-    const [content, setContent] = useState<ContentType | null>({'output': null, "solution": null});
     const [clicked, setValue] = useState<keyof ContentType | null>(null);
 
-    const {solution, isLoading, isError, error} = useDisplaySubBox();
+    const {solution, isLoading, isError, error, refetch, isFetching} = useDisplaySubBox();
+
+    const content: ContentType = {
+    output: null,
+    solution: solution?.[0]?.solution ?? null,
+  };
 
     useEffect(() => {
         console.log(clicked);
     }, [clicked]);
 
-    useEffect(() => {
-        if (solution)
-            setContent((prev) => {
-            console.log(solution)
-            const newData = prev;
-
-            if (newData)
-                newData['solution'] = solution[0]['solution'];
-
-            return newData;
-        });
-    }, [solution]);
 
     if (isLoading)
         return <div> Loading... </div>;
@@ -41,16 +32,18 @@ function DisplaySubBox() {
         return <div> {error?.message} </div>;
 
 
-
     const handleClick = ((val: keyof ContentType) => {
+        if (val == 'solution' && content[val] == null) refetch();
         setValue(val);
-
     })
+
+    const value = clicked ? content[clicked] : null;
+    // {clicked && content && content[clicked] && !isLoading ? <div> {content[clicked]} </div> : <div> Display answer here </div>}
 
     return (
         <>
             <Container classes="grid justify-center items-center bg-blue-500 rounded-md display">
-                <ul className="grid" style={{gridTemplateColumns: "50% 50%"}}>
+                <ul className="flex w-full max-w-md mx-auto justify-center">
                     <li onClick={() => handleClick('output')} className={`rounded-md overflow-hidden ${clicked === "output" ? "active" : ""}`}>
                         Output
                     </li>
@@ -58,7 +51,8 @@ function DisplaySubBox() {
                         Solution
                     </li>
                 </ul>
-                {clicked && content && content[clicked] ? <div> {content[clicked]} </div> : <div> Display answer here </div>}
+                {clicked === 'solution' && isFetching && <div>Loading...</div>}
+                {value && !isFetching ? <div className="p-6">{value}</div> : <div> "Display Solution Here "</div>}
             </Container>
         </>
     )

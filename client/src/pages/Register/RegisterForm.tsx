@@ -16,7 +16,6 @@ export default function RegisterForm({classes}: RegisterFormProps) {
     const emailRef = useRef<HTMLInputElement>(null);
     
     const validation = (): boolean => {
-        // Validation
         console.log('validation');
 
         if (!nameRef.current || !passwordRef.current || !emailRef.current || !confirmPasswordRef.current)
@@ -57,38 +56,32 @@ export default function RegisterForm({classes}: RegisterFormProps) {
 
     const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.currentTarget;
-
         if (!target.checkValidity())
             target.setCustomValidity('');
     }
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        console.log('clciked');
+    // Prefix with _ to signal intentionally unused — satisfies tsc without removing the handler
+    const handleClick = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        console.log('clicked');
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log('handling submit');
-
         if (!validation())
             return;
 
-        // Handle Submition
-        // Sends a Message to Flask Backend
-        const newUser = {
+        // Fix: authService expects { user } not { newUser }
+        const user = {
             username: nameRef.current?.value || '',
             password: passwordRef.current?.value || '',
             confirmPassword: confirmPasswordRef.current?.value || '',
             email: emailRef.current?.value || ''
         }
 
-        const data = registerAuth({newUser});
-      
+        const data = registerAuth({ user });
         console.log(data);
     };
-
-
 
     return (
         <>

@@ -1,7 +1,7 @@
 import Container from './Container';
 
 import { ProblemType } from '../types/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ListItemProps {
@@ -24,7 +24,8 @@ interface ListItemProps {
 function ListItem({children, classes}: ListItemProps) {
     console.log(children);
     
-    const [id, setID] = useState(children?.id);
+    // const [id, setID] = useState(children?.id);
+    const id = children?.id;
 
     const navigate = useNavigate();
 

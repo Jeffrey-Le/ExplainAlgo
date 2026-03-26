@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: explainalgo-prod
+
+bases:
+  - ../../base
+
+patches:
+  - path: patches/redis-pvc.yaml
+    target:
+      kind: Deployment
+      name: redis
+  - path: patches/resources.yaml
+    target:
+      kind: Deployment
+      name: api-gateway
+  - path: patches/resources.yaml
+    target:
+      kind: Deployment
+      name: frontend
+
+# HPA is applied as a standalone resource, not a patch
+resources:
+  - patches/hpa.yaml
+  - ../../base
+  - ../../base/secrets/postgres-sealed-secret-prod.yaml
+  - ../../base/secrets/app-sealed-secret-prod.yaml

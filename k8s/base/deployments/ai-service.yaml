@@ -1,0 +1,53 @@
+# ── ai-service ───────────────────────────────────────────────────
+# Placeholder — this service does not exist yet.
+# It will be populated when the gemini/ layer is extracted from
+# api-gateway into its own FastAPI service (planned migration step).
+#
+# When ready, this will expose port 8001 and run the LangGraph
+# hint/explain graphs backed by Gemini.
+#
+# For now, all Gemini logic lives in api-gateway. This file is here
+# so kustomization.yaml doesn't break and the split can be done
+# without touching the manifest structure.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service
+  labels:
+    app: ai-service
+spec:
+  replicas: 0    # scaled to 0 until the service is implemented
+  selector:
+    matchLabels:
+      app: ai-service
+  template:
+    metadata:
+      labels:
+        app: ai-service
+    spec:
+      containers:
+        - name: ai-service
+          image: ai-service
+          ports:
+            - containerPort: 8001
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"   # Gemini calls are the bottleneck — more CPU headroom
+              memory: "512Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-service
+spec:
+  selector:
+    app: ai-service
+  ports:
+    - port: 8001
+      targetPort: 8001
+  type: ClusterIP

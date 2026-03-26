@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: explainalgo-staging
+
+bases:
+  - ../../base
+
+# Staging uses fewer replicas and dev config — no HPA
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+    target:
+      kind: Deployment
+      name: api-gateway
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+    target:
+      kind: Deployment
+      name: frontend
+  - patch: |-
+      - op: replace
+        path: /data/APP_SETTINGS
+        value: config.StagingConfig
+    target:
+      kind: ConfigMap
+      name: app-config
+
+resources:
+  - ../../base
+  - ../../base/secrets/postgres-sealed-secret-staging.yaml
+  - ../../base/secrets/app-sealed-secret-staging.yaml

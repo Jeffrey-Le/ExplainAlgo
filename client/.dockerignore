@@ -1,0 +1,28 @@
+# Dependencies (reinstalled in container)
+node_modules/
+
+# Build output (built in container)
+dist/
+
+# Env & secrets
+.env
+.env.*
+*.env
+.env.local
+.env.production
+
+# Dev artifacts
+.vite/
+*.log
+
+# Version control
+.git/
+.gitignore
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

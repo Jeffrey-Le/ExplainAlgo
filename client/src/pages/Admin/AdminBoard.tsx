@@ -160,7 +160,7 @@ function AdminBoard() {
                 <div style={{fontSize: '4vh', marginLeft: '5vh'}}> Admin Board </div>
                 <Container style={{paddingLeft: '5vh', paddingRight: '5vh'}} classes="flex-col bg-blue-300 gap-10">
                     <Form onSubmit={handleSubmit} submitButtonText="Submit" type="container">
-                        <Dropdown style={{fontSize: '3vh', marginTop: '3vh'}} classes="" setSelectedType={setSelectedType}>
+                        <Dropdown style={{fontSize: '3vh', marginTop: '3vh'}} classes="" setSelectedType={(value) => setSelectedType(value as keyof DataType)}>
                             <div > New Problem </div>
                             <div > Create Solution </div>
                             <div > Create Rubric </div>

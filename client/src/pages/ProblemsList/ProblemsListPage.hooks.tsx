@@ -14,13 +14,16 @@ const useProblemsListPage = () => {
     const cachedProblems = queryClient.getQueryData<ProblemType[]>(['problems', quantity]);
 
     //const {data, loading, error, fetchData} = useFetch<typeof problems>('/api/problems?quantity=20');
-    const { data: newProblems, isError, error, isLoading} = useQuery({
+    const { data: newProblems, isError, error, isLoading, isFetching} = useQuery({
         queryKey: ['problems', quantity],          // First argument: Query key
         queryFn: () => fetchProblems(quantity),          // Second argument: Fetch function
         staleTime: 5 * 60 * 1000, // 5 minutes of fresh data time
         gcTime: 10 * 60 * 1000, // Refteches new cache every 10 minutes of inactive data
         initialData: cachedProblems,
-        
+        // Fetch once, then rely on cache until *you* invalidate
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
       });
 
     useEffect(() => {
@@ -35,7 +38,7 @@ const useProblemsListPage = () => {
     // Other Effects
     // Probably just rendering effects
 
-    return {newProblems, isLoading, isError, error};
+    return {newProblems, isLoading, isError, error, isFetching};
 }
 
 export {useProblemsListPage};

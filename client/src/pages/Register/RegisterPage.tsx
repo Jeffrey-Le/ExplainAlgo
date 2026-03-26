@@ -1,4 +1,3 @@
-import { ReactNode, useEffect } from "react";
 import Container from "../../components/Container";
 import RegisterForm from "./RegisterForm";
 

@@ -4,11 +4,16 @@ export interface ProblemType {
     questionTitle?: string | null,
     difficulty?: DifficultyType,
     description?: string,
-    example?: object,
+    example?: ExampleType,
     rubric?: object,
     created_at?: string,
     updated_at?: string,
     solutions: ProblemSolutionType[]
+}
+
+interface ExampleType {
+    input?: string,
+    output?: string
 }
 
 export interface ProblemSolutionType {

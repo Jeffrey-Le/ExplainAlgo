@@ -6,12 +6,12 @@ import "../../styles/problemList.css"
 
 
 function ProblemsListPage() {
-    const {newProblems, isLoading, isError, error} = useProblemsListPage();
+    const {newProblems, isLoading, isError, error, isFetching} = useProblemsListPage();
     //const {problems} = useListItemContext();
 
     console.log("pROBLEMS:", newProblems);
 
-    if (isLoading)
+    if (isLoading || isFetching)
         return <div> Loading... </div>;
 
     if (isError)
@@ -22,7 +22,7 @@ function ProblemsListPage() {
     return (
         <>
             <div className="scrollable-container">
-               \<List items={newProblems} classes={"listbox"}/> 
+               <List items={newProblems} classes={"listbox"}/> 
             </div>
         </>
     )

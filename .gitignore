@@ -6,3 +6,21 @@
 
 /.DS_STORE
 /server/.DS_STORE
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Env
+.env
+.env.*
+
+# OS
+.DS_Store
+.github/.DS_Store
+
+# Database backups
+*.backup
+*.dump
+*.sql.gz

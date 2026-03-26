@@ -19,7 +19,7 @@ function AnswerSubBox() {
 
     return (
         <>
-            <textarea className="flex justify-center items-center bg-red-100 rounded-md overflow-y-scroll answer"
+            <textarea className="flex justify-center items-center bg-red-100 rounded-md overflow-y-scroll answer p-6"
             placeholder="Type Response Here" value={val} onChange={handleChange} ref={textAreaRef}></textarea>
         </>
     )
