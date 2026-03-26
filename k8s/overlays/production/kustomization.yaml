@@ -8,11 +8,12 @@ bases:
 
 resources:
   - patches/hpa.yaml
+  - patches/redis-pvc.yaml
   - postgres-sealed-secret-prod.yaml
   - app-sealed-secret-prod.yaml
 
 patches:
-  - path: patches/redis-pvc.yaml
+  - path: patches/redis-pvc-patch.yaml
     target:
       kind: Deployment
       name: redis
