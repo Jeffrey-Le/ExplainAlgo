@@ -17,11 +17,11 @@ patches:
     target:
       kind: Deployment
       name: redis
-  - path: patches/resources.yaml
+  - path: patches/resources-api-gateway.yaml
     target:
       kind: Deployment
       name: api-gateway
-  - path: patches/resources.yaml
+  - path: patches/resources-frontend.yaml
     target:
       kind: Deployment
       name: frontend
