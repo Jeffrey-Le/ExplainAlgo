@@ -87,22 +87,6 @@ jobs:
           SHA=$(git rev-parse --short=7 HEAD)
           echo "tag=${SHA}" >> $GITHUB_OUTPUT
 
-      - name: Tag images as :latest in ECR
-        # Promotes the SHA-tagged image to :latest so prod k8s manifests
-        # can also reference :latest if needed.
-        run: |
-          for REPO in ${{ env.BACKEND_REPO }} ${{ env.FRONTEND_REPO }}; do
-            MANIFEST=$(aws ecr batch-get-image \
-              --repository-name $REPO \
-              --image-ids imageTag=${{ steps.meta.outputs.tag }} \
-              --query 'images[0].imageManifest' --output text)
-
-            aws ecr put-image \
-              --repository-name $REPO \
-              --image-tag latest \
-              --image-manifest "$MANIFEST"
-          done
-
       - name: Deploy to production namespace (Kustomize)
         run: |
           cd k8s/overlays/production
