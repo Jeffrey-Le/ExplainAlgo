@@ -69,10 +69,7 @@ spec:
           # Run Alembic migrations before the container serves traffic.
           # Using lifecycle hook keeps it in the same container without
           # a separate init container — acceptable for this scale.
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "flask db upgrade"]
+          
 
 ---
 apiVersion: v1
