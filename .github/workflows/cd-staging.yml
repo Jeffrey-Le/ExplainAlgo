@@ -117,7 +117,7 @@ jobs:
           echo "Waiting 30s for ALB to register new targets..."
           sleep 30
           for i in {1..10}; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $STAGING_URL/api/health/)
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $STAGING_URL/)
             if [ "$STATUS" = "200" ]; then
               echo "Staging smoke test passed (HTTP $STATUS)"
               exit 0
