@@ -4,7 +4,6 @@ metadata:
   name: explainalgo-ingress
   annotations:
     # AWS ALB ingress controller — installed via eksctl addon or helm
-    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /api/health/
@@ -13,6 +12,7 @@ metadata:
     # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:ACCOUNT:certificate/CERT-ID
     # alb.ingress.kubernetes.io/ssl-redirect: "443"
 spec:
+  ingressClassName: alb
   rules:
     - http:
         paths:
