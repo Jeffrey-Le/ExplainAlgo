@@ -6,7 +6,10 @@ namespace: explainalgo-staging
 bases:
   - ../../base
 
-# Staging uses fewer replicas and dev config — no HPA
+resources:
+  - postgres-sealed-secret-staging.yaml
+  - app-sealed-secret-staging.yaml
+
 patches:
   - patch: |-
       - op: replace
@@ -29,8 +32,3 @@ patches:
     target:
       kind: ConfigMap
       name: app-config
-
-resources:
-  - ../../base
-  - ../../base/secrets/postgres-sealed-secret-staging.yaml
-  - ../../base/secrets/app-sealed-secret-staging.yaml

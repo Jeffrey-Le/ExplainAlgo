@@ -6,6 +6,11 @@ namespace: explainalgo-prod
 bases:
   - ../../base
 
+resources:
+  - patches/hpa.yaml
+  - postgres-sealed-secret-prod.yaml
+  - app-sealed-secret-prod.yaml
+
 patches:
   - path: patches/redis-pvc.yaml
     target:
@@ -19,10 +24,3 @@ patches:
     target:
       kind: Deployment
       name: frontend
-
-# HPA is applied as a standalone resource, not a patch
-resources:
-  - patches/hpa.yaml
-  - ../../base
-  - ../../base/secrets/postgres-sealed-secret-prod.yaml
-  - ../../base/secrets/app-sealed-secret-prod.yaml
