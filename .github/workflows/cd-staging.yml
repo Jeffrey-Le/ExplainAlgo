@@ -113,17 +113,10 @@ jobs:
 
       - name: Smoke test staging
         run: |
-          STAGING_URL=${{ vars.STAGING_URL }}
-          echo "Waiting 30s for ALB to register new targets..."
-          sleep 30
-          for i in {1..10}; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $STAGING_URL/)
-            if [ "$STATUS" = "200" ]; then
-              echo "Staging smoke test passed (HTTP $STATUS)"
-              exit 0
-            fi
-            echo "Attempt $i: got HTTP $STATUS, retrying in 15s..."
-            sleep 15
-          done
-          echo "Smoke test failed after 10 attempts"
-          exit 1
+          kubectl run smoke-test \
+            --image=curlimages/curl \
+            --restart=Never \
+            --rm \
+            -n explainalgo-staging \
+            -it \
+            -- curl -sf http://api-gateway:5000/health/
