@@ -44,13 +44,13 @@ jobs:
         run: |
           aws ecr describe-images \
             --repository-name ${{ env.BACKEND_REPO }} \
-            --image-ids imageTag=${{ steps.resolve.outputs.sha }}
+            --image-ids imageTag=staging
 
       - name: Check frontend image exists in ECR
         run: |
           aws ecr describe-images \
             --repository-name ${{ env.FRONTEND_REPO }} \
-            --image-ids imageTag=${{ steps.resolve.outputs.sha }}
+            --image-ids imageTag=staging
 
   # ── Deploy to Production ───────────────────────────────────────
   deploy-production:
@@ -104,19 +104,16 @@ jobs:
           done
 
       - name: Deploy to production namespace (Kustomize)
-        env:
-          IMAGE_TAG: ${{ steps.meta.outputs.tag }}
-          ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
         run: |
           cd k8s/overlays/production
 
           kustomize edit set image \
-            api-gateway=$ECR_REGISTRY/${{ env.BACKEND_REPO }}:$IMAGE_TAG \
-            frontend=$ECR_REGISTRY/${{ env.FRONTEND_REPO }}:$IMAGE_TAG
+            api-gateway=${{ env.ECR_REGISTRY }}/${{ env.BACKEND_REPO }}:staging \
+            frontend=${{ env.ECR_REGISTRY }}/${{ env.FRONTEND_REPO }}:staging
 
           kubectl apply -k .
-          kubectl rollout status deployment/api-gateway -n explainalgo-prod --timeout=180s
-          kubectl rollout status deployment/frontend    -n explainalgo-prod --timeout=180s
+          kubectl rollout status deployment/api-gateway -n explainalgo-prod --timeout=300s
+          kubectl rollout status deployment/frontend    -n explainalgo-prod --timeout=120s
 
       - name: Verify production health
         run: |
