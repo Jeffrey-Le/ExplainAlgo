@@ -6,8 +6,8 @@ on:
       - "v*.*.*"    # triggers on v1.0.0, v1.2.3, etc.
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+  AWS_REGION: us-west-1
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-1.amazonaws.com
   BACKEND_REPO: explainalgo/api-gateway
   FRONTEND_REPO: explainalgo/frontend
 
