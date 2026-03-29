@@ -42,31 +42,27 @@ def add_user():
     return
 
 @user.route('/login', methods=['POST'])
-@limiter.limit("10 per minute") # Limit to 10 requests per minute
+@limiter.limit("10 per minute")
 @csrf.exempt
 def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-
     logger.info(f'Login attempt for username: {username}')
     
     token = authenticate_user(username, password)
-    token['csrf_token'] = generate_csrf()
-
-    if token:
-        user = User.query.filter_by(username=username).first()
-
-        schema = UserSchema()
-        result = schema.dump(user)
-
-        response = make_response(jsonify({'message': 'Login Successful!', 'user': result}))
-        response.set_cookie('access_token', token['access_token'], httponly=True, secure=False, samesite='Lax', max_age=3600)
-        response.set_cookie('csrf_token', token['csrf_token'], httponly=True, samesite='Lax', secure=False, path='/')
-
-        return response, 200
-    else:
+    
+    if not token:                                    # ← check FIRST
         return jsonify({'message': 'Invalid credentials'}), 401
+
+    token['csrf_token'] = generate_csrf()            # ← then access token
+    user = User.query.filter_by(username=username).first()
+    schema = UserSchema()
+    result = schema.dump(user)
+    response = make_response(jsonify({'message': 'Login Successful!', 'user': result}))
+    response.set_cookie('access_token', token['access_token'], httponly=True, secure=False, samesite='Lax', max_age=3600)
+    response.set_cookie('csrf_token', token['csrf_token'], httponly=True, samesite='Lax', secure=False, path='/')
+    return response, 200
 
 @user.route('/register', methods=['POST'])
 def register():
@@ -111,8 +107,12 @@ def register():
     db.session.commit()
 
     # Optionally send verification email
-    verification_link = f"https://example.com/verify/{new_user.id}"
-    send_verification_email(email, verification_link)
+    # Optionally send verification email
+    try:
+        verification_link = f"https://example.com/verify/{new_user.id}"
+        send_verification_email(email, verification_link)
+    except Exception as e:
+        logger.warning(f'Failed to send verification email: {e}')
     
     return jsonify({'message': 'User created successfully. Please verify your email to complete registration.'}), 201
 
