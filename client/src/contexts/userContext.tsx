@@ -22,11 +22,13 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       try {
         const response = await axios.get('/api/users/'); // Adjust API endpoint as needed
         setUser(response.data);
-        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch user', error);
-        setLoading(false);
+        setUser(null);
       }
+      finally {
+        setLoading(false);
+    }
     };
 
     useEffect(() => {
@@ -34,7 +36,8 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     }, []);
 
     useEffect(() => {
-      navigate("/");
+      if (user)
+        navigate("/");
     }, [user]);
 
     const logout = async () => {
