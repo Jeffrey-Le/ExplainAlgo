@@ -8,11 +8,12 @@ interface InputBoxProps {
     inputEvent?: React.FormEventHandler<HTMLInputElement>;
     label?: string;
     type?: string;
+    autoComplete?: string;
     classes?: string;
     style?: CSSProperties;
 }
 
-function InputBox({inputEvent, label, type = "text", classes, style = {maxWidth: '100%'}}: InputBoxProps, ref: React.Ref<HTMLInputElement>) {
+function InputBox({inputEvent, label, type = "text", classes, style = {maxWidth: '100%'}, autoComplete}: InputBoxProps, ref: React.Ref<HTMLInputElement>) {
     const activeRef = useRef<HTMLInputElement>(null);
 
     // const handleFocus = () => {
@@ -38,7 +39,7 @@ function InputBox({inputEvent, label, type = "text", classes, style = {maxWidth:
     return (
         <>
             <Container classes={`inBoxCont`}>
-                <input name='myInput' type={type} placeholder=' ' maxLength={256} required className={`inBox ${classes}`} style={style} ref={ref} onInput={inputEvent}/>
+                <input name='myInput' type={type} placeholder=' ' maxLength={256} required className={`inBox ${classes}`} style={style} ref={ref} onInput={inputEvent} autoComplete={autoComplete}/>
                 <div className='labelHolder' ref={activeRef}>{label}</div>
             </Container>
         </>
