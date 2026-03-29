@@ -89,6 +89,7 @@ export default function RegisterForm({classes}: RegisterFormProps) {
                 <label style={{fontSize: "5vh"}}>Register</label>
                 <InputBox label="Name" ref={nameRef} inputEvent={handleInput}/>
                 <InputBox label="Password" type='password' ref={passwordRef} inputEvent={handleInput}/>
+                <InputBox label="Confirm Password" type='password' ref={confirmPasswordRef} inputEvent={handleInput}/>
                 <InputBox label="Email" type='email' ref={emailRef} inputEvent={handleInput}/>
             </Form>
         </>
