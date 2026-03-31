@@ -20,3 +20,10 @@ patches:
     target:
       kind: Deployment
       name: frontend
+  - patch: |-
+      - op: replace
+        path: /data/BASE_URL
+        value: http://k8s-explaina-explaina-3bee6f1bcb-1372552135.us-west-1.elb.amazonaws.com
+    target:
+      kind: ConfigMap
+      name: app-config

@@ -8,4 +8,4 @@ data:
   # Internal service URLs — use k8s DNS service names
   AI_SERVICE_URL: "http://ai-service:8001"
   SES_SENDER_EMAIL: "jeffreyvole@gmail.com"
-  BASE_URL: "http://k8s-explaina-explaina-0ed1c0e65f-1292707217.us-west-1.elb.amazonaws.com"
+  BASE_URL: "http://localhost:3000"

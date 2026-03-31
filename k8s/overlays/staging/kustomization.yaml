@@ -32,3 +32,10 @@ patches:
     target:
       kind: ConfigMap
       name: app-config
+  - patch: |-
+      - op: replace
+        path: /data/BASE_URL
+        value: http://k8s-explaina-explaina-0ed1c0e65f-1292707217.us-west-1.elb.amazonaws.com
+    target:
+      kind: ConfigMap
+      name: app-config
