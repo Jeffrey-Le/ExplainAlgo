@@ -45,6 +45,17 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: redis-url
+            - name: SES_SENDER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SES_SENDER_EMAIL
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL
+              
           resources:
             requests:
               cpu: "200m"
@@ -69,7 +80,7 @@ spec:
           # Run Alembic migrations before the container serves traffic.
           # Using lifecycle hook keeps it in the same container without
           # a separate init container — acceptable for this scale.
-          
+       
 
 ---
 apiVersion: v1

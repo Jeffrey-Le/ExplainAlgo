@@ -5,7 +5,7 @@ import Form from '../../components/Form';
 
 import { loginAuth } from '../../services/authService';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserContext } from '../../contexts/userContext';
 
 interface LoginFormProps {
@@ -20,7 +20,11 @@ export default function LoginForm({classes}: LoginFormProps) {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const userObj = useUserContext();
+
+    // Show success message if redirected from email verification
+    const justVerified = searchParams.get('verified') === 'true';
     
     const validation = (): boolean => {
         if (!nameRef.current || !passwordRef.current)
@@ -43,7 +47,7 @@ export default function LoginForm({classes}: LoginFormProps) {
         const target = e.currentTarget;
         if (!target.checkValidity())
             target.setCustomValidity('');
-        setError(null);  // clear error on input
+        setError(null);
     }
 
     const handleClick = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -69,8 +73,14 @@ export default function LoginForm({classes}: LoginFormProps) {
             userObj.setUser(data?.user);
             navigate('/');
 
-        } catch (err) {
-            setError('Invalid username or password');
+        } catch (err: any) {
+            // 403 = unverified email, 401 = wrong credentials
+            const status = err?.response?.status;
+            if (status === 403) {
+                setError('Please verify your email before logging in. Check your inbox for the verification link.');
+            } else {
+                setError('Invalid username or password');
+            }
         } finally {
             setLoading(false);
         }
@@ -80,11 +90,23 @@ export default function LoginForm({classes}: LoginFormProps) {
         <>
             <Form onSubmit={handleSubmit} onClick={handleClick} classes={classes} submitButtonText={loading ? 'Logging in...' : 'Login'}>
                 <label style={{fontSize: "5vh"}}>Login</label>
+
+                {justVerified && (
+                    <div style={{color: 'green', fontSize: '1.4vh', marginBottom: '0.5rem'}}>
+                        Email verified successfully! You can now log in.
+                    </div>
+                )}
+
                 {error && (
                     <div style={{color: 'red', fontSize: '1.4vh', marginBottom: '0.5rem'}}>
                         {error}
                     </div>
                 )}
+
+                <div style={{fontSize: '1.2vh', color: '#666', marginBottom: '0.5rem'}}>
+                    Please verify your email before logging in.
+                </div>
+
                 <InputBox label="Name" ref={nameRef} inputEvent={handleInput}/>
                 <InputBox label="Password" type='password' ref={passwordRef} inputEvent={handleInput} autoComplete="off"/>
             </Form>

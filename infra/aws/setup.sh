@@ -60,6 +60,11 @@ aws iam put-user-policy \
           \"eks:DescribeCluster\"
         ],
         \"Resource\": \"arn:aws:eks:${REGION}:${ACCOUNT_ID}:cluster/*\"
+      },
+      {
+        "Effect": "Allow",
+        "Action": ["ses:SendEmail", "ses:SendRawEmail"],
+        "Resource": "*"
       }
     ]
   }"
